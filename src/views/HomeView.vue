@@ -1,9 +1,11 @@
 <script setup>
-import ThePosts from '../components/ThePosts.vue'
+import ThePostsList from '../components/ThePostsList.vue'
+import TheJumbotron from '../components/TheJumbotron.vue'
 </script>
 
 <template>
   <main>
-    <ThePosts />
+    <TheJumbotron />
+    <ThePostsList />
   </main>
 </template>

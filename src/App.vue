@@ -1,6 +1,5 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import TheJumbotron from './components/TheJumbotron.vue'
 import TheNavBar from './components/TheNavBar.vue'
 </script>
 
@@ -8,7 +7,6 @@ import TheNavBar from './components/TheNavBar.vue'
   <header>
     <div class="wrapper">
       <TheNavBar/>
-      <TheJumbotron />
     </div>
   </header>
   <RouterView />

@@ -1,20 +1,22 @@
 <script setup>
+import { useRoute } from 'vue-router'
 import {ref, onBeforeMount } from 'vue'
 import axios from 'axios'
 
+const route = useRoute()
 const posts = ref([]);
-const currentPage = ref(1);
 
-const fetchPosts = async (page) => {
+const fetchPosts = async () => {
   try {
-    const response = await axios.get(`https://walter-clayton.000webhostapp.com/wp-json/wp/v2/posts?per_page=100&page=${page}`);
+    const response = await axios.get(`https://lightgrey-dragonfly-134918.hostingersite.com/?rest_route=/wp/v2/posts/`);
     posts.value = posts.value.concat(response.data);
+    console.log(response)
   } catch (error) {
     console.error("Error fetching data:", error);
   }
 }
 onBeforeMount(async () => {
-  await fetchPosts(currentPage.value);
+  await fetchPosts(posts.value);
 });
 const formatDate = (dateString) => {
   const options = {
@@ -25,6 +27,11 @@ const formatDate = (dateString) => {
   const date = new Date(dateString);
   return date.toLocaleString('en-GB', options);
 };
+const createPostLinks = (post) => {
+  return `/post?p=${post.id}`;
+};
+console.log(createPostLinks)
+console.log(route)
 </script>
 <template>
   <section>
@@ -32,10 +39,8 @@ const formatDate = (dateString) => {
           <h3 class="title">{{ post.title.rendered }}</h3>
           <span class="date">{{ formatDate(post.date) }}</span>
           <div class="excerpt" v-html="post.excerpt.rendered"></div>
-          <div class="read-more">         
-            <a :href="post.link">
-              Read More
-            </a>
+          <div class="read-more">
+          <router-link :to="{ name: 'post', params: { id: post.id } }">Read More</router-link>
           </div>
       </article>
   </section>
