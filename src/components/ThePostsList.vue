@@ -6,7 +6,7 @@ const posts = ref([]);
 
 const fetchPosts = async () => {
   try {
-    const response = await axios.get(`https://blog.walterclayton.com/?rest_route=/wp/v2/posts/`);
+    const response = await axios.get(`https://blog.walterclayton.com/wp-json/wp/v2/posts/`);
     posts.value = posts.value.concat(response.data);
   } catch (error) {
     console.error("Error fetching data:", error);

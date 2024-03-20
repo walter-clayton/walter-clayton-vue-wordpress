@@ -21,7 +21,7 @@ const authorName = ref('');
 
 const fetchPost = async () => {
   try {
-    const response = await axios.get(`https://blog.walterclayton.com/?rest_route=/wp/v2/posts/${postId.value}`);
+    const response = await axios.get(`https://blog.walterclayton.com/wp-json/wp/v2/posts/${postId.value}`);
     post.value = response.data; // Assign the response data directly to the post object
 
     // Fetch author details
@@ -34,7 +34,7 @@ const fetchPost = async () => {
 
 const fetchAuthor = async (authorId) => {
   try {
-    const response = await axios.get(`https://blog.walterclayton.com/?rest_route=/wp/v2/users/${authorId}`);
+    const response = await axios.get(`https://blog.walterclayton.com/wp-json/wp/v2/users/${authorId}`);
     authorName.value = response.data.name; // Extract the author's display name
   } catch (error) {
     console.error("Error fetching author data:", error);
