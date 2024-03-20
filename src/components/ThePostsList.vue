@@ -1,16 +1,13 @@
 <script setup>
-import { useRoute } from 'vue-router'
 import {ref, onBeforeMount } from 'vue'
 import axios from 'axios'
 
-const route = useRoute()
 const posts = ref([]);
 
 const fetchPosts = async () => {
   try {
-    const response = await axios.get(`https://lightgrey-dragonfly-134918.hostingersite.com/?rest_route=/wp/v2/posts/`);
+    const response = await axios.get(`https://blog.walterclayton.com/?rest_route=/wp/v2/posts/`);
     posts.value = posts.value.concat(response.data);
-    console.log(response)
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -27,14 +24,9 @@ const formatDate = (dateString) => {
   const date = new Date(dateString);
   return date.toLocaleString('en-GB', options);
 };
-const createPostLinks = (post) => {
-  return `/post?p=${post.id}`;
-};
-console.log(createPostLinks)
-console.log(route)
 </script>
 <template>
-  <section>
+  <section v-if="posts">
       <article class="main-article" v-for="post in posts" :key="post.id">
           <h3 class="title">{{ post.title.rendered }}</h3>
           <span class="date">{{ formatDate(post.date) }}</span>

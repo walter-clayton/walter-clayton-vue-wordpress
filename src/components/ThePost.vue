@@ -1,10 +1,10 @@
 <template>
   <section>
-    <div>
-      <h1 v-html="post.title.rendered"></h1>
+    <div v-if="post" class="container">
+      <h1 v-html="post.title?.rendered"></h1>
       <p>{{ authorName }}</p>
       <p>{{ formatDate(post.date) }}</p>
-      <p v-html="post.content.rendered"></p>
+      <p v-html="post.content?.rendered"></p>
     </div>
   </section>
 </template>
@@ -21,13 +21,12 @@ const authorName = ref('');
 
 const fetchPost = async () => {
   try {
-    const response = await axios.get(`https://lightgrey-dragonfly-134918.hostingersite.com/?rest_route=/wp/v2/posts/${postId.value}`);
+    const response = await axios.get(`https://blog.walterclayton.com/?rest_route=/wp/v2/posts/${postId.value}`);
     post.value = response.data; // Assign the response data directly to the post object
 
     // Fetch author details
     await fetchAuthor(post.value.author);
 
-    console.log(response);
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -35,7 +34,7 @@ const fetchPost = async () => {
 
 const fetchAuthor = async (authorId) => {
   try {
-    const response = await axios.get(`https://lightgrey-dragonfly-134918.hostingersite.com/?rest_route=/wp/v2/users/${authorId}`);
+    const response = await axios.get(`https://blog.walterclayton.com/?rest_route=/wp/v2/users/${authorId}`);
     authorName.value = response.data.name; // Extract the author's display name
   } catch (error) {
     console.error("Error fetching author data:", error);
@@ -46,7 +45,6 @@ onBeforeMount(async () => {
   // Check if route and route.params are available
   if (route && route.params) {
     postId.value = route.params.id;
-    console.log('Post ID:', postId.value);
   }
   await fetchPost();
 });
@@ -77,16 +75,19 @@ section {
   flex-wrap: wrap;
 }
 
+.container {
+  padding: 25px;
+}
+
 @media (max-width: 992px) {
   section {
     width: 100%;
     flex-direction: column;
     margin: auto;
   }
+  .container {
+  padding: 15px;
 }
-
-section {
-  padding: 25px;
 }
 
 h1 {
