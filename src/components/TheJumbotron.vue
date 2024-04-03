@@ -1,10 +1,8 @@
 <template>
     <div class="jumbotron-container">
         <div class="block">
-                <h1 class="title">Home</h1>
+                <h1 class="title">WALTER CLAYTON</h1>
                 <h2 class="subtitle">Discover my blog posts</h2>
-                <h1>Portfolio</h1>
-                <h2 class="subtitle">Discover the code and live demos</h2>          
         </div>
         <div class="block">
             <svg width="100%" height="100%" viewBox="0 0 406 306" fill="none" xmlns="http://www.w3.org/2000/svg">
