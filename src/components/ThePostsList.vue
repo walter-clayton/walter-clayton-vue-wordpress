@@ -1,4 +1,5 @@
 <script setup>
+import {event} from 'vue-gtag';
 import {ref, onBeforeMount } from 'vue'
 import axios from 'axios'
 
@@ -24,6 +25,13 @@ const formatDate = (dateString) => {
   const date = new Date(dateString);
   return date.toLocaleString('en-GB', options);
 };
+const trackReadMoreClick = (postId) => {
+  event('event', 'click', {
+    event_category: 'Blog Post',
+    event_label: 'Read More',
+    value: postId,
+  });
+};
 </script>
 <template>
   <section v-if="posts">
@@ -31,8 +39,8 @@ const formatDate = (dateString) => {
           <h3 class="title">{{ post.title.rendered }}</h3>
           <span class="date">{{ formatDate(post.date) }}</span>
           <div class="excerpt" v-html="post.excerpt.rendered"></div>
-          <div class="read-more">
-          <router-link :to="{ name: 'post', params: { id: post.id } }">Read More</router-link>
+          <div class="read-more" @click="() => trackReadMoreClick(post.id)">
+              <router-link :to="{ name: 'post', params: { id: post.id } }">Read More</router-link>
           </div>
       </article>
   </section>
