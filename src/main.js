@@ -3,6 +3,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import VueGtag from 'vue-gtag';
+import '@fortawesome/fontawesome-free/css/all.min.css'
 
 // Define routes
 const router = createRouter({
