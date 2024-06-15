@@ -9,6 +9,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/', name: 'home', component: () => import('./views/HomeView.vue') },
+    { path: '/blog', name: 'blog', component: () => import('./views/BlogView.vue') },
     { path: '/post/:id', name: 'post', component: () => import('./components/ThePost.vue') },
   ],
 });

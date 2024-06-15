@@ -96,8 +96,9 @@ section {
   padding: 20px;
   background-color: white;
   border: 1px solid #ddd;
-  border-radius: 5px;
   box-sizing: border-box;
+  border-radius: 25px; 
+
 }
 
 .no-post {
@@ -145,11 +146,14 @@ section {
   line-height: 1.5em;
   color: rgba(12, 17, 43, 0.8);
   flex-grow: 1;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .read-more {
-  color: #507A95;
+  background: #507A95;
+  border-radius: 25px; 
+  padding: 10px 20px;
+  color: white;
   align-self: flex-start;
 }
 </style>

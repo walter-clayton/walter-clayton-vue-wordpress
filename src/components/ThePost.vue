@@ -6,7 +6,7 @@
     <div v-html="post.content.rendered" class="content"></div>
     <p class="author">Written by <em>{{ authorName }}</em></p>
   </div>
-  <p v-else>Loading...</p>
+  <p class="loading" v-else>Loading...</p>
 </template>
 
 <script setup>
@@ -74,6 +74,11 @@ onMounted(() => {
   width: 100%;
   margin: 20px 0;
   object-fit: scale-down;
+}
+
+.loading {
+  text-align: center;
+  margin-top: 20px;
 }
 
 /* For mobile view */
