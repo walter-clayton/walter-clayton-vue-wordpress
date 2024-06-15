@@ -9,7 +9,7 @@ import Logo from "./icons/IconLogo.vue";
         <nav class="nav-container-desktop">
             <div class="nav-item">
                 <RouterLink to="/">Home</RouterLink>
-                <RouterLink to="blog">Blog</RouterLink>
+                <RouterLink to="/blog">Blog</RouterLink>
             </div>
         </nav>
     </div>
