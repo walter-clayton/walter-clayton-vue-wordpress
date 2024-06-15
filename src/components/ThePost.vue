@@ -126,4 +126,15 @@ onMounted(() => {
   font-style: italic;
   margin-top: 20px;
 }
+
+:deep(.parent-link) {
+  margin-bottom: 40px !important;
+}
+:deep(.link) {
+  background: #507A95;
+  border-radius: 25px; 
+  padding: 10px 20px;
+  color: white;
+  align-self: flex-start;
+}
 </style>
