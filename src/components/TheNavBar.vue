@@ -10,6 +10,7 @@ import Logo from "./icons/IconLogo.vue";
             <div class="nav-item">
                 <RouterLink to="/">Home</RouterLink>
                 <RouterLink to="/blog">Blog</RouterLink>
+                <RouterLink to="/about">About</RouterLink>
             </div>
         </nav>
     </div>
