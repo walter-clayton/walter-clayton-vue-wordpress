@@ -3,7 +3,18 @@ import { ref } from 'vue'
 import FooterComponent from '../components/FooterComponent.vue'
 import aboutData from '@/assets/about.json'
 
-const aboutItem = ref(aboutData)
+// Create a ref for the aboutItem
+const aboutItem = ref({ ...aboutData })
+
+// Function to resolve image paths dynamically
+const resolveImagePath = (path) => {
+  return new URL(`../assets/${path.split('/').pop()}`, import.meta.url).href
+}
+
+// Update the featuredImage path
+if (aboutItem.value.featuredImage) {
+  aboutItem.value.featuredImage = resolveImagePath(aboutItem.value.featuredImage)
+}
 </script>
 
 <template>
