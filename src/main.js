@@ -1,28 +1,51 @@
-import './assets/main.css';
+import '@/assets/main.css';
 import { createApp } from 'vue';
 import App from './App.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import VueGtag from 'vue-gtag';
+import '@fortawesome/fontawesome-free/css/all.min.css'
 
+// Define routes
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/', name: 'home', component: () => import('./views/HomeView.vue') },
+    { path: '/blog', name: 'blog', component: () => import('./views/BlogView.vue') },
+    { path: '/about', name: 'about', component: () => import('./views/AboutView.vue') },
     { path: '/post/:id', name: 'post', component: () => import('./components/ThePost.vue') },
   ],
 });
 
-const app = createApp(App);
+// Environment-based conditional logic
+if (import.meta.env.VITE_APP_ENVIRONMENT === 'staging') {
+  const username = prompt('Please enter your username:');
+  const password = prompt('Please enter your password:');
 
-app.use(router);
+  const expectedUsername = import.meta.env.VITE_APP_EXPECTED_USERNAME;
+  const expectedPassword = import.meta.env.VITE_APP_EXPECTED_PASSWORD;
 
-app.use(VueGtag, {
-  config: { 
-    id: 'G-RMZ2CZEMX8',
-    params: {
-      anonymize_ip: true // Anonymize IP addresses for all events
-    }
+  if (username !== expectedUsername || password !== expectedPassword) {
+    alert('Access denied');
+    window.close();
+  } else {
+    const app = createApp(App);
+    app.use(router).use(VueGtag, {
+      config: {
+        id: 'G-RMZ2CZEMX8',
+        params: {
+          anonymize_ip: true, // Anonymize IP addresses for all events
+        },
+      },
+    }).mount('#app');
   }
-});
-
-app.mount('#app');
+} else {
+  const app = createApp(App);
+  app.use(router).use(VueGtag, {
+    config: {
+      id: 'G-RMZ2CZEMX8',
+      params: {
+        anonymize_ip: true,
+      },
+    },
+  }).mount('#app');
+}

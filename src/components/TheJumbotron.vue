@@ -1,5 +1,5 @@
 <template>
-    <div class="jumbotron-container">
+    <div class="jumbotron-container container">
         <div class="block">
                 <h1 class="title">WALTER CLAYTON</h1>
                 <h2 class="subtitle">Discover my blog posts</h2>
@@ -247,9 +247,11 @@
     </div>
 </template>
 <style scoped>
-.jumbotron-container {
+.container {
     width: 90%;
     max-width: 1200px;
+}
+.jumbotron-container {
     margin: 2% auto;
     display: flex;
     justify-content: space-evenly;
@@ -258,11 +260,13 @@
     color: white;
     overflow: hidden;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 992px) {
+    .container{
+        width: 100%;
+    }
     .jumbotron-container {
         flex-direction: column;
         text-align: center;
-        width: 100%;
         margin: -10px 0 20px 0;
         border-radius: 0; 
     }
