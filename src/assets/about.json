@@ -1,7 +1,7 @@
 {
   "id": 1,
   "title": "About Walter Clayton",
-  "featuredImage": "src/assets/profile-abstract.webp",
+  "featuredImage": "@/src/assets/profile-abstract.webp",
   "content": {
     "paragraphs": [
       "Welcome to my digital space! Here, you'll find the convergence of technology, creativity, and sports science through the lens of curiosity and a lifelong passion for learning. My path is fueled by the desire to see theoretical knowledge meet practical application, always with a keen eye on how to make things better.",
