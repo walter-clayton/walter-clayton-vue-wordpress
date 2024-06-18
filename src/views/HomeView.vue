@@ -5,7 +5,18 @@ import FooterComponent from '../components/FooterComponent.vue'
 import CardComponent from '../components/CardComponent.vue'
 import projectsData from '@/assets/projects.json'
 
-const projects = ref(projectsData)
+// Function to resolve image paths dynamically
+const resolveImagePath = (path) => {
+  return new URL(`../assets/${path.split('/').pop()}`, import.meta.url).href
+}
+
+// Resolve image paths in projects data
+const projects = ref(projectsData.map(project => {
+  if (project.featureImage) {
+    project.featureImage = resolveImagePath(project.featureImage)
+  }
+  return project
+}))
 </script>
 
 <template>

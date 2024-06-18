@@ -1,6 +1,6 @@
 <template>
   <section>
-    <article v-for="project in resolvedProjects" :key="project.id" class="main-article container">
+    <article v-for="project in projects" :key="project.id" class="main-article container">
       <img :src="project.featureImage" :alt="project.title" class="featured-image"/>
       <h3 class="title">{{ project.title }}</h3>
       <div class="description">{{ project.description }}</div>
@@ -12,8 +12,6 @@
 </template>
 
 <script>
-import { ref, watchEffect } from 'vue'
-
 export default {
   name: 'CardComponent',
   props: {
@@ -21,24 +19,6 @@ export default {
       type: Array,
       required: true
     }
-  },
-  setup(props) {
-    const resolvedProjects = ref([])
-
-    const resolveImagePath = (path) => {
-      return new URL(`../assets/${path.split('/').pop()}`, import.meta.url).href
-    }
-
-    watchEffect(() => {
-      resolvedProjects.value = props.projects.map(project => {
-        if (project.featureImage) {
-          project.featureImage = resolveImagePath(project.featureImage)
-        }
-        return project
-      })
-    })
-
-    return { resolvedProjects }
   }
 }
 </script>
