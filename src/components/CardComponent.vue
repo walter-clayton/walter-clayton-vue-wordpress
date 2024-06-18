@@ -12,7 +12,8 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
 export default {
   name: 'CardComponent',
@@ -23,12 +24,12 @@ export default {
     }
   },
   setup(props) {
-    // Function to resolve image paths dynamically
+    const route = useRoute()
+
     const resolveImagePath = (path) => {
       return new URL(`../assets/${path.split('/').pop()}`, import.meta.url).href
     }
 
-    // Compute resolved projects with proper image paths
     const resolvedProjects = computed(() => {
       return props.projects.map(project => {
         if (project.featureImage) {
@@ -36,6 +37,22 @@ export default {
         }
         return project
       })
+    })
+
+    const resolveAllImages = () => {
+      resolvedProjects.value.forEach(project => {
+        if (project.featureImage) {
+          project.featureImage = resolveImagePath(project.featureImage)
+        }
+      })
+    }
+
+    onMounted(() => {
+      resolveAllImages()
+    })
+
+    watch(route, () => {
+      resolveAllImages()
     })
 
     return { resolvedProjects }
