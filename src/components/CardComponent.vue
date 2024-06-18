@@ -12,8 +12,7 @@
 </template>
 
 <script>
-import { computed, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, watchEffect } from 'vue'
 
 export default {
   name: 'CardComponent',
@@ -24,35 +23,19 @@ export default {
     }
   },
   setup(props) {
-    const route = useRoute()
+    const resolvedProjects = ref([])
 
     const resolveImagePath = (path) => {
       return new URL(`../assets/${path.split('/').pop()}`, import.meta.url).href
     }
 
-    const resolvedProjects = computed(() => {
-      return props.projects.map(project => {
+    watchEffect(() => {
+      resolvedProjects.value = props.projects.map(project => {
         if (project.featureImage) {
           project.featureImage = resolveImagePath(project.featureImage)
         }
         return project
       })
-    })
-
-    const resolveAllImages = () => {
-      resolvedProjects.value.forEach(project => {
-        if (project.featureImage) {
-          project.featureImage = resolveImagePath(project.featureImage)
-        }
-      })
-    }
-
-    onMounted(() => {
-      resolveAllImages()
-    })
-
-    watch(route, () => {
-      resolveAllImages()
     })
 
     return { resolvedProjects }
