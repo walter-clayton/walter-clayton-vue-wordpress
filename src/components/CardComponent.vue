@@ -1,7 +1,7 @@
 <template>
   <section>
     <article v-for="project in projects" :key="project.id" class="main-article container">
-      <img :src="project.featureImage" :alt="project.title" class="featured-image"/>
+      <img :src="project.featureImage" :alt="project.title" class="featured-image" />
       <h3 class="title">{{ project.title }}</h3>
       <div class="description">{{ project.description }}</div>
       <div class="link">
@@ -53,7 +53,7 @@ section {
   padding: 20px;
   background-color: white;
   border: 1px solid #ddd;
-  border-radius: 25px; 
+  border-radius: 25px;
   box-sizing: border-box;
 }
 
@@ -95,9 +95,9 @@ section {
 
 .link {
   background: #507A95;
-  border-radius: 25px; 
+  border-radius: 25px;
   padding: 10px 20px;
   color: white;
-  align-self: flex-start; 
+  align-self: flex-start;
 }
 </style>

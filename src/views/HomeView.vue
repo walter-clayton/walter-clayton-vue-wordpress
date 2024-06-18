@@ -7,6 +7,7 @@ import projectsData from '@/assets/projects.json'
 
 // Function to resolve image paths dynamically
 const resolveImagePath = (path) => {
+  if (!path) return ''
   return new URL(`../assets/${path.split('/').pop()}`, import.meta.url).href
 }
 
@@ -14,6 +15,7 @@ const resolveImagePath = (path) => {
 const projects = ref(projectsData.map(project => {
   if (project.featureImage) {
     project.featureImage = resolveImagePath(project.featureImage)
+    console.log(`Resolved path for ${project.title}: ${project.featureImage}`) // Debugging log
   }
   return project
 }))
