@@ -11,7 +11,7 @@ const resolveImagePath = (path) => {
     console.error('Path is undefined or empty')
     return ''
   }
-  const resolvedPath = new URL(`../assets/${path.split('/').pop()}`, import.meta.url).href
+  const resolvedPath = new URL(`../${path}`, import.meta.url).href
   console.log(`Resolving path: original=${path}, resolved=${resolvedPath}`)
   return resolvedPath
 }

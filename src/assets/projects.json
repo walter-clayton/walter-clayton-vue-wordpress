@@ -3,21 +3,21 @@
     "id": 1,
     "title": "Afitpilot: Personalized Fitness Journey",
     "description": "Afitpilot provides tailored fitness insights and tools, leveraging somatotypes and RPE to create personalized training plans. Visualize progress with custom avatars and connect with a supportive community. Join us to optimize your health and fitness journey.",
-    "featureImage": "@/assets/afitpilot-logo.png",
+    "featureImage": "assets/afitpilot-logo.png",
     "link": "https://www.afitpilot.com"
   },
   {
     "id": 2,
     "title": "Akwanza: Fashioning Conservation First - A Mission Clothed in Purpose",
     "description": "Akwanza blends eco-friendly fashion with a mission to support the Big Life Foundation. Each garment sold aids wildlife conservation, reflecting the spirit of Africa's wilderness and our commitment to sustainability. Join us in making a tangible impact with every purchase.",
-    "featureImage": "@/assets/akwanza-logo.png",
+    "featureImage": "assets/akwanza-logo.png",
     "link": "https://www.akwanza.com"
   },
   {
     "id": 3,
     "title": "Rate of Perceived Exertion (RPE)",
     "description": "RPE is a scale from 1 to 10 that measures exercise intensity based on personal perception, helping manage training loads, optimize performance, and prevent injuries.",
-    "featureImage": "@/assets/rpe-logo.png",
+    "featureImage": "assets/rpe-logo.png",
     "link": "https://rpe.afitpilot.com/"
   }
 ]
