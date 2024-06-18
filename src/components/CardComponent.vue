@@ -1,6 +1,6 @@
 <template>
   <section>
-    <article v-for="project in projects" :key="project.id" class="main-article container">
+    <article v-for="project in resolvedProjects" :key="project.id" class="main-article container">
       <img :src="project.featureImage" :alt="project.title" class="featured-image"/>
       <h3 class="title">{{ project.title }}</h3>
       <div class="description">{{ project.description }}</div>
@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import { computed } from 'vue'
+
 export default {
   name: 'CardComponent',
   props: {
@@ -19,6 +21,24 @@ export default {
       type: Array,
       required: true
     }
+  },
+  setup(props) {
+    // Function to resolve image paths dynamically
+    const resolveImagePath = (path) => {
+      return new URL(`../assets/${path.split('/').pop()}`, import.meta.url).href
+    }
+
+    // Compute resolved projects with proper image paths
+    const resolvedProjects = computed(() => {
+      return props.projects.map(project => {
+        if (project.featureImage) {
+          project.featureImage = resolveImagePath(project.featureImage)
+        }
+        return project
+      })
+    })
+
+    return { resolvedProjects }
   }
 }
 </script>
@@ -33,7 +53,6 @@ section {
   margin: auto;
   padding: 20px 0;
 }
-
 
 @media screen and (max-width: 992px) {
   section {
