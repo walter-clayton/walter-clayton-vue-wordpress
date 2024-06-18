@@ -1,14 +1,17 @@
-import './assets/main.css';
+import '@/assets/main.css';
 import { createApp } from 'vue';
 import App from './App.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import VueGtag from 'vue-gtag';
+import '@fortawesome/fontawesome-free/css/all.min.css'
 
 // Define routes
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/', name: 'home', component: () => import('./views/HomeView.vue') },
+    { path: '/blog', name: 'blog', component: () => import('./views/BlogView.vue') },
+    { path: '/about', name: 'about', component: () => import('./views/AboutView.vue') },
     { path: '/post/:id', name: 'post', component: () => import('./components/ThePost.vue') },
   ],
 });

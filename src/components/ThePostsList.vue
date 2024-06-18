@@ -1,21 +1,45 @@
 <script setup>
-import {event} from 'vue-gtag';
-import {ref, onBeforeMount } from 'vue'
-import axios from 'axios'
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
 const posts = ref([]);
+const maxExcerptLength = 150;
 
 const fetchPosts = async () => {
   try {
-    const response = await axios.get(`https://blog.walterclayton.com/wp-json/wp/v2/posts/`);
-    posts.value = posts.value.concat(response.data);
+    const response = await axios.get('https://blog.walterclayton.com/wp-json/wp/v2/posts/');
+    const postsData = response.data;
+
+    for (const post of postsData) {
+      if (post.featured_media) {
+        try {
+          const mediaResponse = await axios.get(`https://blog.walterclayton.com/wp-json/wp/v2/media/${post.featured_media}`);
+          post.featuredImage = mediaResponse.data.source_url;
+        } catch (error) {
+          console.error(`Error fetching media for post ID ${post.id}:`, error);
+        }
+      }
+      post.excerpt.rendered = truncateExcerpt(post.excerpt.rendered);
+    }
+
+    posts.value = postsData;
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error('Error fetching posts:', error);
   }
-}
-onBeforeMount(async () => {
-  await fetchPosts(posts.value);
-});
+};
+
+const truncateExcerpt = (excerpt) => {
+  const tempDiv = document.createElement("div");
+  tempDiv.innerHTML = excerpt;
+  const text = tempDiv.textContent || tempDiv.innerText || "";
+  if (text.length > maxExcerptLength) {
+    return text.substring(0, maxExcerptLength) + '...';
+  }
+  return text;
+};
+
+onMounted(fetchPosts);
+
 const formatDate = (dateString) => {
   const options = {
     day: 'numeric',
@@ -23,101 +47,113 @@ const formatDate = (dateString) => {
     year: 'numeric',
   };
   const date = new Date(dateString);
-  return date.toLocaleString('en-GB', options);
-};
-const trackReadMoreClick = (postId) => {
-  event('event', 'click', {
-    event_category: 'Blog Post',
-    event_label: 'Read More',
-    value: postId,
-  });
+  return date.toLocaleDateString('en-GB', options);
 };
 </script>
+
 <template>
-  <section v-if="posts">
-      <article class="main-article" v-for="post in posts" :key="post.id">
-          <h3 class="title">{{ post.title.rendered }}</h3>
-          <span class="date">{{ formatDate(post.date) }}</span>
-          <div class="excerpt" v-html="post.excerpt.rendered"></div>
-          <div class="read-more" @click="() => trackReadMoreClick(post.id)">
-              <router-link :to="{ name: 'post', params: { id: post.id } }">Read More</router-link>
-          </div>
-      </article>
+  <section v-if="posts.length > 0">
+    <article v-for="post in posts" :key="post.id" class="main-article">
+      <img v-if="post.featuredImage" :src="post.featuredImage" alt="Featured Image" class="featured-image"/>
+      <h3 v-html="post.title.rendered" class="title"></h3>
+      <span class="date">{{ formatDate(post.date) }}</span>
+      <div v-html="post.excerpt.rendered" class="excerpt"></div>
+      <div class="read-more" @click="trackReadMoreClick(post.id)">
+        <router-link :to="{ name: 'post', params: { id: post.id } }">Read More</router-link>
+      </div>
+    </article>
   </section>
+  <p class="no-post" v-else>No posts available.</p>
 </template>
+
 <style scoped lang="scss">
-section{
+section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
   width: 95%;
   max-width: 1200px;
   margin: auto;
-  list-style: none;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  flex-wrap: wrap;
+  padding: 20px 0;
 }
+
 @media screen and (max-width: 992px) {
   section {
-    width: 100%;
-    flex-direction: column;
-    margin: auto;  }
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
+
+@media screen and (max-width: 768px) {
+  section {
+    grid-template-columns: 1fr;
+  }
+}
+
 .main-article {
   display: flex;
   flex-direction: column;
-  width: 500px;
-  padding: 25px;
-  border-radius: 25px;
-  margin: 25px;
+  justify-content: space-between;
+  padding: 20px;
   background-color: white;
-  color: black;
-  // opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
-  &.active {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  border-radius: 25px; 
+
 }
-@media screen and (max-width: 1300px) {
+
+.no-post {
+  text-align: center;
+  margin-top: 20px;
+}
+
+@media screen and (max-width: 768px) {
   .main-article {
-    width: 400px;
+    margin-left: 15px;
+    margin-right: 15px;
   }
 }
-@media screen and (max-width: 1112px) {
-  .main-article {
-    width: 350px;
-  }
+
+.featured-image {
+  width: 100%;
+  height: 200px; /* Fixed height for images */
+  object-fit: scale-down;
+  margin-bottom: 15px;
 }
-@media screen and (max-width: 1002px) {
-  .main-article {
-    width: auto;
-  }
-}
+
 .title {
   font-size: 24px;
   line-height: 1.5;
-  box-sizing: border-box;
-  margin: 0px 0px 10px 0px;
+  margin: 0 0 10px 0;
+  height: 110px;
+  display: flex;
+  align-items: center;
 }
-.date{
+
+@media screen and (max-width: 768px) {
+  .title {
+    font-size: 20px;
+  }
+}
+
+.date {
   color: rgba(12, 17, 43, 0.9);
   font-size: 0.9em;
   font-weight: 300;
+  margin-bottom: 10px;
 }
+
 .excerpt {
   line-height: 1.5em;
   color: rgba(12, 17, 43, 0.8);
+  flex-grow: 1;
+  margin-bottom: 20px;
 }
-.read-more{
-  color: #507A95;
+
+.read-more {
+  background: #507A95;
+  border-radius: 25px; 
+  padding: 10px 20px;
+  color: white;
   align-self: flex-start;
-}
-@media screen and (max-width: 768px) {
-    .container {
-      width: 100%;
-      flex-direction: column;
-      margin: auto;
-    }
 }
 </style>
