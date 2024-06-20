@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue'
-import TheJumbotron from '@/components/TheJumbotron.vue'
-import FooterComponent from '@/components/FooterComponent.vue'
-import CardComponent from '@/components/CardComponent.vue'
+import TheJumbotron from '../components/TheJumbotron.vue'
+import FooterComponent from '../components/FooterComponent.vue'
+import CardComponent from '../components/CardComponent.vue'
 import projectData from '@/assets/projects.json'
 
 // Create a ref for the project items

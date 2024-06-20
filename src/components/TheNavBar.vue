@@ -10,6 +10,7 @@ import Logo from "./icons/IconLogo.vue";
             <div class="nav-item">
                 <RouterLink to="/">Home</RouterLink>
                 <RouterLink to="/blog">Blog</RouterLink>
+                <RouterLink to="/portfolio">Portfolio</RouterLink>
                 <RouterLink to="/about">About</RouterLink>
             </div>
         </nav>
@@ -26,12 +27,12 @@ import Logo from "./icons/IconLogo.vue";
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    background-color: #507A95;
+    background-color: #EEEAE2;
 }
 .nav-item {
   padding: 0;
   margin: 0 16px;
-  color: #fff;
+  color: black;
   font-size: 0.9em;
   box-sizing: border-box;
   flex-shrink: 0;
@@ -45,7 +46,7 @@ import Logo from "./icons/IconLogo.vue";
     border-bottom-color: transparent;
     /* Use for semantic approach to style the current link */
     &[aria-current="page"] {
-      color: #F9AA8F;
+      color:  #507A95;
       font-weight: 600;
     }
   }

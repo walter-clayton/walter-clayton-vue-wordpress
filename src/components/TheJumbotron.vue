@@ -1,11 +1,8 @@
 <template>
-    <div class="jumbotron-container container">
-        <div class="block">
-                <h1 class="title">WALTER CLAYTON</h1>
-                <h2 class="subtitle">Discover my blog posts</h2>
-        </div>
-        <div class="block">
-            <svg width="100%" height="100%" viewBox="0 0 406 306" fill="none" xmlns="http://www.w3.org/2000/svg">
+<div class="container">
+  <div class="jumbotron-container">
+    <div class="block">
+      <svg width="100%" height="100%" viewBox="0 0 406 306" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path opacity="0.24" d="M348.268 200.464C339.18 213.497 326.433 223.526 316.351 235.851C301.549 253.921 291.972 277.382 271.929 289.436C262.45 295.128 251.48 297.673 240.729 300.142C223.449 304.118 205.545 308.093 188.13 304.735C174.781 302.168 162.666 295.437 150.8 288.796L141.411 283.525C139.341 282.351 137.248 281.199 135.155 280.024L129.056 276.606C111.152 266.517 93.3604 255.991 78.272 242.085C61.4594 226.65 48.0951 206.337 45.3169 183.651C42.0944 157.435 54.4271 129.901 76.1262 114.835C88.0298 106.553 102.222 101.945 113.915 93.354C132.369 79.8016 142.526 58.1251 155.197 39.0839C178.681 3.77967 223.841 -13.1158 261.87 11.9789C276.65 21.7217 287.831 36.1927 296.045 51.8835C302.987 65.1122 308.092 79.4628 317.323 91.2082C327.864 104.625 343.208 113.916 352.431 128.274C366.247 149.762 362.904 179.488 348.268 200.464Z" fill="#F9AA8F" />
                 <path opacity="0.42" d="M153.21 280.8C152.103 282.012 153.917 283.699 155.468 284.286C165.588 288.158 176.331 290.149 187.166 290.159L185.322 293.298C202.305 298.014 220.241 298.108 237.273 293.569L234.653 289.504L249.869 288.751C252.286 288.638 260.764 289.632 262.367 287.486C266.983 281.304 248.198 281.063 246.18 280.981C226.137 280.142 206.082 279.819 186.014 280.009C180.543 280.06 175.072 280.147 169.601 280.273C167.011 280.363 154.821 279.083 153.21 280.8Z" fill="#F9AA8F" />
                 <path d="M238.756 225.092C238.349 233.123 237.865 241.169 237.303 249.23C237.136 253.305 236.607 257.356 235.722 261.337C235.128 263.704 234.29 266.002 233.222 268.196C232.763 269.137 232.108 270.161 231.076 270.267C229.774 270.402 228.87 269.009 228.403 267.782C226.077 261.759 226.077 255.163 225.926 248.718C225.841 245.385 225.708 242.05 225.527 238.712C225.309 234.684 224.872 230.324 222.147 227.343C221.318 226.439 220.31 225.702 219.496 224.775C216.176 221.011 217.17 214.664 220.746 211.118C223.525 208.369 231.588 204.74 235.481 207.014C240.104 209.71 238.974 220.747 238.756 225.092Z" fill="#606161" />
@@ -243,23 +240,106 @@
                     </linearGradient>
                 </defs>
             </svg>
-        </div>
     </div>
+    <div class="block">
+      <h1 class="title">{{ title }}</h1>
+      <h2 class="subtitle">{{ subtitle }}</h2>
+      <p v-if="description">{{ description }}</p>
+      <div v-if="buttons" class="cta-buttons">
+        <a v-for="button in buttons" :key="button.text" :href="button.link" :class="button.class">{{ button.text }}</a>
+      </div>
+    </div>
+  </div>
+</div>
 </template>
-<style scoped>
-.container {
-    width: 90%;
-    max-width: 1200px;
+
+<script>
+export default {
+  data() {
+    return {
+      title: 'Default Title',
+      subtitle: 'Default Subtitle',
+      description: '',
+      buttons: []
+    };
+  },
+  watch: {
+    '$route': {
+      immediate: true,
+      handler(to) {
+        console.log('Route changed:', to.meta);
+        this.updateContent(to.meta);
+      }
+    }
+  },
+  created() {
+    console.log('Component created with route meta:', this.$route.meta);
+    this.updateContent(this.$route.meta);
+  },
+  methods: {
+    updateContent(meta) {
+      console.log('Updating content with meta:', meta);
+      this.title = meta.title || 'Default Title';
+      this.subtitle = meta.subtitle || 'Default Subtitle';
+      this.description = meta.description || '';
+      this.buttons = meta.buttons || [];
+    }
+  }
 }
+</script>
+
+<style scoped>
+/* Additional Styles for Buttons */
+.cta-buttons {
+  margin-top: 20px;
+}
+
+.btn-primary, .btn-secondary {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 1em;
+  text-decoration: none;
+  border-radius: 15px;
+}
+
+.btn-primary {
+  background-color: #47758c;
+  color: #ffffff;
+
+}
+
+.btn-secondary {
+  background-color: #ffffff;
+  color: #47758c;
+  border: 2px solid #47758c;
+}
+
+.btn-primary:hover {
+    background-color: #202733;
+}
+.btn-secondary:hover{
+    background-color: #202733;
+    color: #ffffff;
+    border: 2px solid #202733;
+}
+
+/* Existing Styles */
+.container {
+    background-color: #D3C9BB;
+}
+
 .jumbotron-container {
-    margin: 2% auto;
+    margin: auto;
+    max-width: 1200px;
+    width: 90%;
     display: flex;
     justify-content: space-evenly;
-    border-radius: 25px; 
-    background-color: #507A95;
-    color: white;
+    color: black;
     overflow: hidden;
+    padding-bottom: 20px;
 }
+
 @media screen and (max-width: 992px) {
     .container{
         width: 100%;
@@ -267,32 +347,38 @@
     .jumbotron-container {
         flex-direction: column;
         text-align: center;
-        margin: -10px 0 20px 0;
         border-radius: 0; 
     }
 }
+
 .block {
     padding: 20px;
     align-self: center;
+    width: inherit;
 }
+
 .title {
     font-size: 36px;
 }
+
 .subtitle {
     font-size: 16px;
 }
+
 svg {
     color: #F9AA8F;
 }
-/* ANIMATIONS */
+
+/* Animations */
 @keyframes horizontalScroll {
-        0% {
+    0% {
         transform: translate3d(0, 8%, 0);
     }
     100% {
         transform: translate3d(0, -2%, 0);
     }
 }
+
 @keyframes halfOpactiy {
     0% {
         opacity: 0;
@@ -301,33 +387,41 @@ svg {
         opacity: 0.5;
     }
 }
+
 @keyframes fadeIn {
     0% { opacity: 0; }
     100% { opacity: 1; }
-  }
+}
+
 .appear-one{
     animation: halfOpactiy 1s 1 forwards;
     opacity: 0;
 }
+
 .appear-two{
     animation: halfOpactiy 1s 0.5s 1 forwards;
     opacity: 0;
 }
+
 .appear-three{
     animation: halfOpactiy 1s 1s 1 forwards;
     opacity: 0;
 }
+
 .appear-four{
     animation: halfOpactiy 1s 1.5s 1 forwards;
     opacity: 0;
 }
+
 .appear-five{
     animation: halfOpactiy 1s 2s 1 forwards;
     opacity: 0;
 }
+
 .screen-writing-scroll {
-padding: 100px;
-color: red !important;
-animation: horizontalScroll 5s forwards 1;
+    padding: 100px;
+    color: red !important;
+    animation: horizontalScroll 5s forwards 1;
 }
+
 </style>
