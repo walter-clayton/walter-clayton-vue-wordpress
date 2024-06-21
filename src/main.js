@@ -1,20 +1,9 @@
 import '@/assets/main.css';
 import { createApp } from 'vue';
 import App from './App.vue';
-import { createRouter, createWebHistory } from 'vue-router';
+import router from './router';
 import VueGtag from 'vue-gtag';
-import '@fortawesome/fontawesome-free/css/all.min.css'
-
-// Define routes
-const router = createRouter({
-  history: createWebHistory(),
-  routes: [
-    { path: '/', name: 'home', component: () => import('./views/HomeView.vue') },
-    { path: '/blog', name: 'blog', component: () => import('./views/BlogView.vue') },
-    { path: '/about', name: 'about', component: () => import('./views/AboutView.vue') },
-    { path: '/post/:id', name: 'post', component: () => import('./components/ThePost.vue') },
-  ],
-});
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 // Environment-based conditional logic
 if (import.meta.env.VITE_APP_ENVIRONMENT === 'staging') {
