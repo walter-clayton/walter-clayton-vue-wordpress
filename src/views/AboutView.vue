@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import FooterComponent from '../components/FooterComponent.vue'
 import aboutData from '@/assets/about.json'
+import TheJumbotron from '../components/TheJumbotron.vue'
 
 // Create a ref for the aboutItem
 const aboutItem = ref({ ...aboutData })
@@ -19,6 +20,7 @@ if (aboutItem.value.featuredImage) {
 
 <template>
   <section>
+  <TheJumbotron />
     <div v-if="aboutItem" class="post-container">
       <h1 v-html="aboutItem.title" class="title"></h1>
       <img v-if="aboutItem.featuredImage" :src="aboutItem.featuredImage" alt="Walter Clayton Image" class="featured-image"/>
