@@ -2,7 +2,7 @@
 <template>
   <section>
     <article v-for="project in projects" :key="project.id" class="main-article container">
-      <img :src="project.featureImage" :alt="project.title" class="featured-image" />
+      <img :src="resolveImagePath(project.featureImage)" :alt="project.title" class="featured-image" />
       <h3 class="title">{{ project.title }}</h3>
       <div class="description">{{ project.description }}</div>
       <div class="link">
@@ -12,16 +12,19 @@
   </section>
 </template>
 
-<script>
-export default {
-  name: 'CardComponent',
-  props: {
-    projects: {
-      type: Array,
-      required: true
-    }
+<script setup>
+import { defineProps } from 'vue';
+
+defineProps({
+  projects: {
+    type: Array,
+    required: true
   }
-}
+});
+
+const resolveImagePath = (path) => {
+  return new URL(`../assets/${path.split('/').pop()}`, import.meta.url).href;
+};
 </script>
 
 <style scoped lang="scss">
