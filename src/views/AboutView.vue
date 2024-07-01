@@ -1,29 +1,35 @@
 <script setup>
-import { ref } from 'vue'
-import FooterComponent from '../components/FooterComponent.vue'
-import aboutData from '@/assets/about.json'
-import TheJumbotron from '../components/TheJumbotron.vue'
+import { ref } from 'vue';
+import FooterComponent from '../components/FooterComponent.vue';
+import aboutData from '@/assets/about.json';
+import TheJumbotron from '../components/TheJumbotron.vue';
 
 // Create a ref for the aboutItem
-const aboutItem = ref({ ...aboutData })
+const aboutItem = ref({ ...aboutData });
+const isJumbotronLoaded = ref(false);
 
 // Function to resolve image paths dynamically
 const resolveImagePath = (path) => {
-  return new URL(`../assets/${path.split('/').pop()}`, import.meta.url).href
-}
+  return new URL(`../assets/${path.split('/').pop()}`, import.meta.url).href;
+};
 
 // Update the featuredImage path
 if (aboutItem.value.featuredImage) {
-  aboutItem.value.featuredImage = resolveImagePath(aboutItem.value.featuredImage)
+  aboutItem.value.featuredImage = resolveImagePath(aboutItem.value.featuredImage);
 }
+
+// Handler for when the Jumbotron is loaded
+const handleJumbotronLoaded = () => {
+  isJumbotronLoaded.value = true;
+};
 </script>
 
 <template>
   <section>
-  <TheJumbotron />
-    <div v-if="aboutItem" class="post-container">
+    <TheJumbotron @loaded="handleJumbotronLoaded" />
+    <div v-if="isJumbotronLoaded" class="post-container">
       <h1 v-html="aboutItem.title" class="title"></h1>
-      <img v-if="aboutItem.featuredImage" :src="aboutItem.featuredImage" alt="Walter Clayton Image" class="featured-image"/>
+      <img v-if="aboutItem.featuredImage" :src="aboutItem.featuredImage" alt="Featured Image" class="featured-image" />
       <div class="content">
         <p v-for="(paragraph, index) in aboutItem.content.paragraphs" :key="index" v-html="paragraph"></p>
       </div>

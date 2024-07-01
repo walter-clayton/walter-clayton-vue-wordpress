@@ -1,3 +1,4 @@
+<!-- CardComponent.vue -->
 <template>
   <section>
     <article v-for="project in projects" :key="project.id" class="main-article container">

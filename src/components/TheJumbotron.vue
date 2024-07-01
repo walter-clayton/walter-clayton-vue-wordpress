@@ -1,19 +1,20 @@
+<!-- TheJumbotron.vue -->
 <template>
-<div class="container">
-  <div class="jumbotron-container">
-    <div class="block-1">
-      <component :is="svgComponent" />
-    </div>
-    <div class="block-2">
-      <h1 class="title">{{ title }}</h1>
-      <h2 class="subtitle">{{ subtitle }}</h2>
-      <p v-if="description">{{ description }}</p>
-      <div v-if="buttons" class="cta-buttons">
-        <a v-for="button in buttons" :key="button.text" :href="button.link" :class="button.class">{{ button.text }}</a>
+  <div class="container">
+    <div class="jumbotron-container">
+      <div class="block-1">
+        <component :is="svgComponent" @load="handleLoad" />
+      </div>
+      <div class="block-2">
+        <h1 class="title">{{ title }}</h1>
+        <h2 class="subtitle">{{ subtitle }}</h2>
+        <p v-if="description">{{ description }}</p>
+        <div v-if="buttons" class="cta-buttons">
+          <a v-for="button in buttons" :key="button.text" :href="button.link" :class="button.class">{{ button.text }}</a>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -29,12 +30,15 @@ export default {
   },
   watch: {
     '$route'(to) {
-      console.log('Route changed:', to.meta);
       this.updateContent();
+    },
+    svgComponent(newVal, oldVal) {
+      if (newVal) {
+        this.$emit('loaded');
+      }
     }
   },
   created() {
-    console.log('Component created with route meta:', this.$route.meta);
     this.updateContent();
   },
   methods: {
