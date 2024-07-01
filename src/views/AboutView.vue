@@ -3,6 +3,8 @@ import { ref } from 'vue';
 import FooterComponent from '../components/FooterComponent.vue';
 import aboutData from '@/assets/about.json';
 import TheJumbotron from '../components/TheJumbotron.vue';
+import BackgroundBottomSVG from '../assets/svgs/BackgroundBottomSVG.vue';
+import BackgroundTopSVG from '../assets/svgs/BackgroundTopSVG.vue';
 
 // Create a ref for the aboutItem
 const aboutItem = ref({ ...aboutData });
@@ -27,6 +29,7 @@ const handleJumbotronLoaded = () => {
 <template>
   <section>
     <TheJumbotron @loaded="handleJumbotronLoaded" />
+    <BackgroundTopSVG />
     <div v-if="isJumbotronLoaded" class="post-container">
       <h1 v-html="aboutItem.title" class="title"></h1>
       <img v-if="aboutItem.featuredImage" :src="aboutItem.featuredImage" alt="Featured Image" class="featured-image" />
@@ -35,6 +38,7 @@ const handleJumbotronLoaded = () => {
       </div>
     </div>
     <p class="loading" v-else>Loading...</p>
+    <BackgroundBottomSVG />
     <FooterComponent />
   </section>
 </template>
