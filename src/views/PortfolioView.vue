@@ -7,6 +7,7 @@ import projectData from '@/assets/projects.json'
 
 // Create a ref for the project items
 const projectItems = ref(projectData.map(project => ({ ...project })))
+const isJumbotronLoaded = ref(false);
 
 // Function to resolve image paths dynamically
 const resolveImagePath = (path) => {
@@ -19,12 +20,17 @@ projectItems.value.forEach(project => {
     project.featureImage = resolveImagePath(project.featureImage)
   }
 })
+
+// Handler for when the Jumbotron is loaded
+const handleJumbotronLoaded = () => {
+  isJumbotronLoaded.value = true;
+};
 </script>
 
 <template>
   <main>
-    <TheJumbotron />
-    <section class="container">
+    <TheJumbotron @loaded="handleJumbotronLoaded"/>
+    <section v-if="isJumbotronLoaded" class="container">
       <CardComponent :projects="projectItems" />
     </section>
     <FooterComponent />
