@@ -6,20 +6,8 @@ import CardComponent from '../components/CardComponent.vue'
 import projectData from '@/assets/projects.json'
 
 // Create a ref for the project items
-const projectItems = ref(projectData.map(project => ({ ...project })))
+const projectItems = ref(projectData)
 const isJumbotronLoaded = ref(false);
-
-// Function to resolve image paths dynamically
-const resolveImagePath = (path) => {
-  return new URL(`../assets/${path.split('/').pop()}`, import.meta.url).href
-}
-
-// Update the featuredImage paths
-projectItems.value.forEach(project => {
-  if (project.featureImage) {
-    project.featureImage = resolveImagePath(project.featureImage)
-  }
-})
 
 // Handler for when the Jumbotron is loaded
 const handleJumbotronLoaded = () => {
