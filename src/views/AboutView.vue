@@ -1,38 +1,10 @@
-<script setup>
-import { ref } from 'vue';
-import FooterComponent from '../components/FooterComponent.vue';
-import aboutData from '@/assets/about.json';
-import TheJumbotron from '../components/TheJumbotron.vue';
-import BackgroundBottomSVG from '../assets/svgs/BackgroundBottomSVG.vue';
-import BackgroundTopSVG from '../assets/svgs/BackgroundTopSVG.vue';
-
-// Create a ref for the aboutItem
-const aboutItem = ref({ ...aboutData });
-const isJumbotronLoaded = ref(false);
-
-// Function to resolve image paths dynamically
-const resolveImagePath = (path) => {
-  return new URL(`../assets/${path.split('/').pop()}`, import.meta.url).href;
-};
-
-// Update the featuredImage path
-if (aboutItem.value.featuredImage) {
-  aboutItem.value.featuredImage = resolveImagePath(aboutItem.value.featuredImage);
-}
-
-// Handler for when the Jumbotron is loaded
-const handleJumbotronLoaded = () => {
-  isJumbotronLoaded.value = true;
-};
-</script>
-
 <template>
   <section>
     <TheJumbotron @loaded="handleJumbotronLoaded" />
     <BackgroundTopSVG />
     <div v-if="isJumbotronLoaded" class="post-container">
       <h1 v-html="aboutItem.title" class="title"></h1>
-      <img v-if="aboutItem.featuredImage" :src="aboutItem.featuredImage" alt="Featured Image" class="featured-image" />
+      <img v-if="aboutItem.featuredImage" :src="aboutItem.featuredImage" alt="Featured Image" class="featured-image" ref="featuredImageRef" />
       <div class="content">
         <p v-for="(paragraph, index) in aboutItem.content.paragraphs" :key="index" v-html="paragraph"></p>
       </div>
@@ -42,6 +14,54 @@ const handleJumbotronLoaded = () => {
     <FooterComponent />
   </section>
 </template>
+
+<script setup>
+import { ref, onMounted, watch, nextTick } from 'vue';
+import FooterComponent from '../components/FooterComponent.vue';
+import aboutData from '@/assets/about.json';
+import TheJumbotron from '../components/TheJumbotron.vue';
+import BackgroundBottomSVG from '../assets/svgs/BackgroundBottomSVG.vue';
+import BackgroundTopSVG from '../assets/svgs/BackgroundTopSVG.vue';
+
+const aboutItem = ref({ ...aboutData });
+const isJumbotronLoaded = ref(false);
+const featuredImageRef = ref(null);
+
+const resolveImagePath = (path) => {
+  return new URL(`../assets/${path.split('/').pop()}`, import.meta.url).href;
+};
+
+if (aboutItem.value.featuredImage) {
+  aboutItem.value.featuredImage = resolveImagePath(aboutItem.value.featuredImage);
+}
+
+const handleJumbotronLoaded = () => {
+  isJumbotronLoaded.value = true;
+};
+
+onMounted(() => {
+  // Intersection Observer will be set up in the watch function
+});
+
+watch(isJumbotronLoaded, async (newValue) => {
+  if (newValue) {
+    await nextTick();  // Wait for the DOM to update
+    if (featuredImageRef.value) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const ratio = entry.intersectionRatio;
+          entry.target.style.opacity = ratio;
+          entry.target.style.transform = `translateY(${20 * (1 - ratio)}px)`;
+        });
+      }, {
+        threshold: Array.from({ length: 101 }, (_, i) => i / 100)  // Set thresholds at every percentage from 0 to 1
+      });
+
+      observer.observe(featuredImageRef.value);
+    }
+  }
+});
+</script>
 
 <style scoped>
 .post-container {
@@ -55,6 +75,9 @@ const handleJumbotronLoaded = () => {
   width: 100%;
   margin: 20px 0;
   object-fit: scale-down;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
 .loading {
@@ -99,6 +122,20 @@ const handleJumbotronLoaded = () => {
   text-align: right;
   font-style: italic;
   margin-top: 20px;
+}
+
+.featured-image {
+  width: 100%;
+  margin: 20px 0;
+  object-fit: scale-down;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.featured-image.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 :deep(.parent-link) {

@@ -13,6 +13,7 @@
 </template>
 
 <script setup>
+import { onMounted, nextTick } from 'vue';
 import { defineProps } from 'vue';
 
 defineProps({
@@ -25,31 +26,27 @@ defineProps({
 const resolveImagePath = (path) => {
   return new URL(`../assets/${path.split('/').pop()}`, import.meta.url).href;
 };
+
+onMounted(async () => {
+  await nextTick();  // Wait for the DOM to update
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const ratio = entry.intersectionRatio;
+      entry.target.style.opacity = ratio;
+      entry.target.style.transform = `translateY(${20 * (1 - ratio)}px)`;
+    });
+  }, {
+    threshold: Array.from({ length: 101 }, (_, i) => i / 100)  // Set thresholds at every percentage from 0 to 1
+  });
+
+  const articles = document.querySelectorAll('.main-article');
+  articles.forEach(article => observer.observe(article));
+});
 </script>
 
+
 <style scoped lang="scss">
-section {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  width: 95%;
-  max-width: 1200px;
-  margin: auto;
-  padding: 20px 0;
-}
-
-@media screen and (max-width: 992px) {
-  section {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media screen and (max-width: 768px) {
-  section {
-    grid-template-columns: 1fr;
-  }
-}
-
 .main-article {
   display: flex;
   flex-direction: column;
@@ -59,6 +56,9 @@ section {
   border: 1px solid #ddd;
   border-radius: 25px;
   box-sizing: border-box;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
 @media screen and (max-width: 768px) {
@@ -103,5 +103,27 @@ section {
   padding: 10px 20px;
   color: white;
   align-self: flex-start;
+}
+
+section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  width: 95%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px 0;
+}
+
+@media screen and (max-width: 992px) {
+  section {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  section {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

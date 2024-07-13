@@ -1,3 +1,16 @@
+
+<template>
+  <main>
+    <TheJumbotron @loaded="handleJumbotronLoaded"/>
+    <BackgroundTopSVG />
+    <section v-if="isJumbotronLoaded" class="container">
+      <CardComponent :projects="projectItems" />
+    </section>
+    <BackgroundBottomSVG />
+    <FooterComponent />
+  </main>
+</template>
+
 <script setup>
 import { ref } from 'vue'
 import TheJumbotron from '../components/TheJumbotron.vue'
@@ -16,15 +29,3 @@ const handleJumbotronLoaded = () => {
   isJumbotronLoaded.value = true;
 };
 </script>
-
-<template>
-  <main>
-    <TheJumbotron @loaded="handleJumbotronLoaded"/>
-    <BackgroundTopSVG />
-    <section v-if="isJumbotronLoaded" class="container">
-      <CardComponent :projects="projectItems" />
-    </section>
-    <BackgroundBottomSVG />
-    <FooterComponent />
-  </main>
-</template>
