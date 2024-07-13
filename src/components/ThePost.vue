@@ -250,6 +250,18 @@ onMounted(() => {
 }
 
 /* Use :deep to target nested images */
+:deep(.content code){
+  display: block;
+  background-color: #202733;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-x: auto;
+  max-width: 100%;
+}
 :deep(.content img),
 :deep(.content figure img),
 :deep(.content figure figure img) {
