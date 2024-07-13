@@ -26,6 +26,20 @@ npm run dev
 
 ```sh
 npm run build
+
+```
+
+### Preview the Production Build Locally
+
+```sh
+npm run preview
+```
+
+#### Alternatively, you can use the serve package to serve the dist directory:
+
+```sh
+npm install -g serve
+serve -s dist
 ```
 
 ### Lint with [ESLint](https://eslint.org/)
