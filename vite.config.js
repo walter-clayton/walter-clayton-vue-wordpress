@@ -10,5 +10,5 @@ export default defineConfig({
     }
   },
   assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.gif', '**/*.webp'],
-  base: './', // Adjust if necessary
+  base: '/', // Adjust if necessary
 })
