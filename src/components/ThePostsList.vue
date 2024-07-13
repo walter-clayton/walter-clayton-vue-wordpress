@@ -1,5 +1,21 @@
+
+<template>
+  <section v-if="posts.length > 0">
+    <article v-for="post in posts" :key="post.id" class="main-article">
+      <img v-if="post.featuredImage" :src="post.featuredImage" alt="Featured Image" class="featured-image"/>
+      <h3 v-html="post.title.rendered" class="title"></h3>
+      <span class="date">{{ formatDate(post.date) }}</span>
+      <div v-html="post.excerpt.rendered" class="excerpt"></div>
+      <div class="read-more" @click="trackReadMoreClick(post.id)">
+        <router-link :to="{ name: 'post', params: { id: post.id } }">Read More</router-link>
+      </div>
+    </article>
+  </section>
+  <p class="no-post" v-else>No posts available.</p>
+</template>
+
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, nextTick } from 'vue';
 import axios from 'axios';
 
 const posts = ref([]);
@@ -38,7 +54,23 @@ const truncateExcerpt = (excerpt) => {
   return text;
 };
 
-onMounted(fetchPosts);
+onMounted(async () => {
+  await fetchPosts();
+  await nextTick();  // Wait for the DOM to update
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const ratio = entry.intersectionRatio;
+      entry.target.style.opacity = ratio;
+      entry.target.style.transform = `translateY(${20 * (1 - ratio)}px)`;
+    });
+  }, {
+    threshold: Array.from({ length: 101 }, (_, i) => i / 100)  // Set thresholds at every percentage from 0 to 1
+  });
+
+  const articles = document.querySelectorAll('.main-article');
+  articles.forEach(article => observer.observe(article));
+});
 
 const formatDate = (dateString) => {
   const options = {
@@ -51,20 +83,6 @@ const formatDate = (dateString) => {
 };
 </script>
 
-<template>
-  <section v-if="posts.length > 0">
-    <article v-for="post in posts" :key="post.id" class="main-article">
-      <img v-if="post.featuredImage" :src="post.featuredImage" alt="Featured Image" class="featured-image"/>
-      <h3 v-html="post.title.rendered" class="title"></h3>
-      <span class="date">{{ formatDate(post.date) }}</span>
-      <div v-html="post.excerpt.rendered" class="excerpt"></div>
-      <div class="read-more" @click="trackReadMoreClick(post.id)">
-        <router-link :to="{ name: 'post', params: { id: post.id } }">Read More</router-link>
-      </div>
-    </article>
-  </section>
-  <p class="no-post" v-else>No posts available.</p>
-</template>
 
 <style scoped lang="scss">
 section {
@@ -98,7 +116,9 @@ section {
   border: 1px solid #ddd;
   box-sizing: border-box;
   border-radius: 25px; 
-
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
 .no-post {
@@ -156,4 +176,5 @@ section {
   color: white;
   align-self: flex-start;
 }
+
 </style>
