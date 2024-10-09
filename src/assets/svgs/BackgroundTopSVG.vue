@@ -1,19 +1,7 @@
 <template>
   <div class="svg-container">
-    <svg 
-        width="100%" 
-        height="100%" 
-        viewBox="0 0 1512 410" 
-        fill="none" 
-        xmlns="http://www.w3.org/2000/svg" 
-        preserveAspectRatio="xMinYMin slice">
-      <path d="M-7.28638 0.600586L1512 0.600586V333.907C1512 333.907 882.578 121.851 459.27 197.816C35.9616 273.781 -7.28638 409.555 -7.28638 409.555V0.600586Z" fill="url(#paint0_linear_712_1021)"/>
-      <defs>
-        <linearGradient id="paint0_linear_712_1021" x1="752.357" y1="-69.2411" x2="752.357" y2="651.211" gradientUnits="userSpaceOnUse">
-          <stop offset="0.9999" stop-color="#D3C9BB"/>
-          <stop offset="1" stop-color="#D3C9BB" stop-opacity="0"/>
-        </linearGradient>
-      </defs>
+    <svg width="100%" height="100%" viewBox="0 0 1521 158" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M1520.06 81.6005V0.887569L0.777344 0.884766V157.248C0.777344 157.248 506.172 5.95266 952.649 81.6005C1399.13 157.248 1520.06 81.6005 1520.06 81.6005Z" fill="#D4CABC"/>
     </svg>
   </div>
 </template>

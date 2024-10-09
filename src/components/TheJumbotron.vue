@@ -1,16 +1,32 @@
-<!-- TheJumbotron.vue -->
 <template>
-  <div class="container">
-    <div class="jumbotron-container">
-      <div class="block-1">
+  <div class="bg-[#D3C9BB]">
+    <div class="max-w-7xl w-[90%] mx-auto flex flex-col md:flex-row justify-evenly flex-wrap py-5">
+      <!-- SVG Component: Order changes based on screen size -->
+      <div class="block-1 p-5 w-full md:w-[40%] flex justify-center order-1 md:order-2">
         <component :is="svgComponent" @load="handleLoad" />
       </div>
-      <div class="block-2">
-        <h1 class="title">{{ title }}</h1>
-        <h2 class="subtitle">{{ subtitle }}</h2>
-        <p v-if="description">{{ description }}</p>
-        <div v-if="buttons" class="cta-buttons">
-          <a v-for="button in buttons" :key="button.text" :href="button.link" :class="button.class">{{ button.text }}</a>
+
+      <!-- Content Section -->
+      <div class="block-2 p-5 w-full md:w-[60%] text-center md:text-left flex flex-col self-center order-2 md:order-1">
+        <h1 v-if="title" class="text-4xl font-bold md:text-5xl">{{ title }}</h1>
+        <h2 v-if="subtitle" class="mt-4 text-xl font-bold md:text-2xl">{{ subtitle }}</h2>
+        <p v-if="description" class="mt-4 text-base md:text-lg">{{ description }}</p>
+        <div v-if="buttons" class="flex flex-wrap justify-center mt-5 md:justify-start">
+          <a
+            v-for="button in buttons"
+            :key="button.text"
+            :href="button.link"
+            :class="[
+              button.class, // Add the dynamic button class
+              'transition-colors duration-200', // Shared transition properties
+              button.class === 'btn-secondary' 
+                ? 'hover:bg-[#202733] hover:text-white' // Transition for btn-secondary
+                : 'hover:bg-transparent hover:text-[#202733] hover:border-[#202733]', // Default transition for other buttons
+              'hover:shadow-lg hover:-translate-y-1', // Lifting effect on hover
+            ]"
+          >
+            {{ button.text }}
+          </a>
         </div>
       </div>
     </div>
@@ -19,9 +35,10 @@
 
 <script>
 export default {
+  name: 'TheJumbotron',
   data() {
     return {
-      title: 'Default Title',
+      title: 'WALTER CLAYTON',
       subtitle: 'Default Subtitle',
       description: '',
       buttons: [],
@@ -36,7 +53,7 @@ export default {
       if (newVal) {
         this.$emit('loaded');
       }
-    }
+    },
   },
   created() {
     this.updateContent();
@@ -56,159 +73,61 @@ export default {
       } catch (error) {
         console.error('Error loading SVG component:', error);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
-/* Additional Styles for Buttons */
-.cta-buttons {
-  margin-top: 20px;
-}
-
-.btn-primary, .btn-secondary {
-  display: inline-block;
-  padding: 10px 20px;
-  margin: 5px;
-  font-size: 1em;
-  text-decoration: none;
-  border-radius: 15px;
-}
-
-.btn-primary {
-  background-color: #202733;
-  color: #ffffff;
-
-}
-
-.btn-secondary {
-  background-color: #ffffff;
-  color: #47758c;
-  border: 2px solid #202733;
-}
-
-.btn-primary:hover {
-    background-color: #202733;
-}
-.btn-secondary:hover{
-    background-color: #202733;
-    color: #ffffff;
-    border: 2px solid #202733;
-}
-
-/* Existing Styles */
-.container {
-    background-color: #D3C9BB;
-}
-
-.jumbotron-container {
-    margin: auto;
-    max-width: 1200px;
-    width: 90%;
-    display: flex;
-    justify-content: space-evenly;
-    color: black;
-    overflow: hidden;
-    padding-bottom: 20px;
-}
-
-@media screen and (max-width: 992px) {
-    .container{
-        width: 100%;
-    }
-    .jumbotron-container {
-        flex-direction: column;
-        text-align: center;
-        border-radius: 0; 
-    }
-}
-
-.block-1 {
-    padding: 20px;
-    align-self: center;
-    width: inherit;
-}
-.block-2 {
-    padding: 20px;
-    align-self: center;
-    width: inherit;
-}
-
-.title {
-    font-size: 36px;
-}
-
-.subtitle {
-    font-size: 16px;
-}
-
-svg {
-    color: #F9AA8F;
-}
-
-@media only screen and (min-width: 768px) {
-        .block-1 {
-            width: 40%
-        }
-        .block-1 {
-            width: 60%
-        }
-    } 
-
-/* Animations */
 @keyframes horizontalScroll {
-    0% {
-        transform: translate3d(0, 8%, 0);
-    }
-    100% {
-        transform: translate3d(0, -2%, 0);
-    }
+  0% {
+    transform: translate3d(0, 8%, 0);
+  }
+  100% {
+    transform: translate3d(0, -2%, 0);
+  }
 }
 
 @keyframes halfOpactiy {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 0.5;
-    }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.5;
+  }
 }
 
 @keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-}
-
-.appear-one{
-    animation: halfOpactiy 1s 1 forwards;
+  0% {
     opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
-.appear-two{
-    animation: halfOpactiy 1s 0.5s 1 forwards;
-    opacity: 0;
+.appear-one {
+  animation: halfOpactiy 1s 1 forwards;
+  opacity: 0;
 }
 
-.appear-three{
-    animation: halfOpactiy 1s 1s 1 forwards;
-    opacity: 0;
+.appear-two {
+  animation: halfOpactiy 1s 0.5s 1 forwards;
+  opacity: 0;
 }
 
-.appear-four{
-    animation: halfOpactiy 1s 1.5s 1 forwards;
-    opacity: 0;
+.appear-three {
+  animation: halfOpactiy 1s 1s 1 forwards;
+  opacity: 0;
 }
 
-.appear-five{
-    animation: halfOpactiy 1s 2s 1 forwards;
-    opacity: 0;
+.appear-four {
+  animation: halfOpactiy 1s 1.5s 1 forwards;
+  opacity: 0;
 }
 
-.screen-writing-scroll {
-    padding: 100px;
-    color: red !important;
-    animation: horizontalScroll 5s forwards 1;
+.appear-five {
+  animation: halfOpactiy 1s 2s 1 forwards;
+  opacity: 0;
 }
-
 </style>

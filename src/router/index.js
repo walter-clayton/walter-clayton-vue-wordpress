@@ -6,12 +6,12 @@ const routes = [
     name: 'home',
     component: () => import('../views/HomeView.vue'),
     meta: {
-      title: "Walter Clayton's Digital Space",
-      subtitle: 'Explore the Intersection of Technology and Creativity',
-      description: 'Join me as I share my journey, projects, and insights aimed at making a positive impact through innovative digital solutions.',
+      title: "WALTER CLAYTON",
+      subtitle: 'I Build Dynamic and Custom Web Solutions',
+      description: 'I am a web developer who specializes in building custom web solutions for businesses and individuals. I am passionate about creating dynamic and engaging websites that help my clients achieve their goals.',
       buttons: [
-        { text: 'Discover My Projects', link: '/portfolio', class: 'btn-primary' },
-        { text: 'Read My Blog', link: '/blog', class: 'btn-secondary' }
+        { text: 'Discover My Work', link: '#work', class: 'btn-primary' },
+        { text: 'Get a Quote', link: '#contact', class: 'btn-secondary' }
       ],
       svg: 'HomeSVG'
     }
