@@ -21,7 +21,7 @@ const handleJumbotronLoaded = () => {
   <main>
     <TheJumbotron @loaded="handleJumbotronLoaded" />
     <BackgroundTopSVG />
-    <section v-if="isJumbotronLoaded" class="container">
+    <section v-if="isJumbotronLoaded">
       <CardComponent :projects="projectItems" />
     </section>
     <BackgroundBottomSVG />

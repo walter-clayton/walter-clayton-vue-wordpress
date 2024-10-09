@@ -1,7 +1,7 @@
 <!-- CardComponent.vue -->
 <template>
   <section>
-    <article v-for="project in projects" :key="project.id" class="main-article container">
+    <article v-for="project in projects" :key="project.id" class="container main-article">
       <img :src="resolveImagePath(project.featureImage)" :alt="project.title" class="featured-image" />
       <h3 class="title">{{ project.title }}</h3>
       <div class="description">{{ project.description }}</div>
@@ -59,13 +59,6 @@ onMounted(async () => {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-@media screen and (max-width: 768px) {
-  .main-article {
-    margin-left: 15px;
-    margin-right: 15px;
-  }
 }
 
 .featured-image {
