@@ -1,11 +1,9 @@
-import '@/assets/main.css';
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 import VueGtag from 'vue-gtag';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './style.css';
-import './assets/main.css';
 
 // Environment-based conditional logic
 if (import.meta.env.VITE_APP_ENVIRONMENT === 'staging') {
