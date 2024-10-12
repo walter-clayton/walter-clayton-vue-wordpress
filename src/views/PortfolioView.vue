@@ -1,10 +1,14 @@
-
 <template>
   <main>
-    <TheJumbotron @loaded="handleJumbotronLoaded"/>
+    <TheJumbotron @loaded="handleJumbotronLoaded" />
     <BackgroundTopSVG />
-    <section v-if="isJumbotronLoaded" class="container">
-      <CardComponent :projects="projectItems" />
+    <section class="flex flex-col items-center my-12">
+      <CardComponent
+        v-if="projectItems"
+        :projects="projectItems"
+        class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
+      />
+      <div v-else>Loading...</div>
     </section>
     <BackgroundBottomSVG />
     <FooterComponent />
@@ -12,20 +16,37 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import TheJumbotron from '../components/TheJumbotron.vue'
 import FooterComponent from '../components/FooterComponent.vue'
 import CardComponent from '../components/CardComponent.vue'
-import projectData from '@/assets/projects.json'
-import BackgroundBottomSVG from '../assets/svgs/BackgroundBottomSVG.vue';
-import BackgroundTopSVG from '../assets/svgs/BackgroundTopSVG.vue';
+import BackgroundBottomSVG from '../assets/svgs/BackgroundBottomSVG.vue'
+import BackgroundTopSVG from '../assets/svgs/BackgroundTopSVG.vue'
 
-// Create a ref for the project items
-const projectItems = ref(projectData)
-const isJumbotronLoaded = ref(false);
+const projectItems = ref(null)
+const isJumbotronLoaded = ref(false)
+// Fetch project items asynchronously
+const loadProjectItems = async () => {
+  try {
+    const response = await fetch('/assets/projects.json');
+    if (response.ok) {
+      const data = await response.json();
+      projectItems.value = data;
+    } else {
+      console.error('Failed to load project data:', response.statusText);
+    }
+  } catch (error) {
+    console.error('Error loading project data:', error);
+  }
+}
 
 // Handler for when the Jumbotron is loaded
 const handleJumbotronLoaded = () => {
   isJumbotronLoaded.value = true;
-};
+}
+
+// Start loading project items on mount
+onMounted(() => {
+  loadProjectItems();
+})
 </script>

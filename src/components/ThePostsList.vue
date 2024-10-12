@@ -11,7 +11,7 @@
       </div>
     </article>
   </section>
-  <p class="no-post" v-else>No posts available.</p>
+  <p class="no-post" v-else>Loading...</p>
 </template>
 
 <script setup>
