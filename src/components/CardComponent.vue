@@ -2,8 +2,7 @@
   <div>
     <article v-for="project in projects" :key="project.id" class="flex flex-col items-center justify-around max-w-sm p-6 text-center transition transform translate-y-5 bg-white rounded-lg shadow-md opacity-0 hover:shadow-lg main-article"> 
       <div class="flex flex-row items-center gap-3">
-        <img :src="project.featureImage" :alt="`Image for ${project.title}`" class="object-cover w-full mb-4 rounded-lg h-52 featured-image" />
-        <h3 class="mb-2 text-xl font-semibold">{{ project.title }}</h3>
+        <img :src="project.featureImage" :alt="`Image for ${project.title}`" class="object-cover w-full mb-4 rounded-lg min-h-24 featured-image" />
       </div>
       <p class="my-4 text-sm">{{ project.description }}</p>
       <div class="flex flex-row justify-around w-full mt-4 text-sm">
