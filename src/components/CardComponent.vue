@@ -1,30 +1,60 @@
-<!-- CardComponent.vue -->
 <template>
-  <section>
-    <article v-for="project in projects" :key="project.id" class="container main-article">
-      <img :src="resolveImagePath(project.featureImage)" :alt="project.title" class="featured-image" />
-      <h3 class="title">{{ project.title }}</h3>
-      <div class="description">{{ project.description }}</div>
-      <div class="link">
-        <a :href="project.link" target="_blank" rel="noopener noreferrer">Link</a>
+  <div>
+    <article v-for="project in projects" :key="project.id" class="flex flex-col items-center justify-around max-w-sm p-6 text-center transition transform translate-y-5 bg-white rounded-lg shadow-md opacity-0 hover:shadow-lg main-article"> 
+      <div class="flex flex-row items-center gap-3">
+        <img :src="project.featureImage" :alt="`Image for ${project.title}`" class="object-cover w-full mb-4 rounded-lg min-h-24 featured-image" />
+      </div>
+      <p class="my-4 text-sm">{{ project.description }}</p>
+      <div class="flex flex-row justify-around w-full mt-4 text-sm">
+        <a :href="project.website_link" class="flex items-center justify-center p-1 transition bg-[#F3F0EB] rounded-full font-avenir hover:bg-[#202733] hover:text-white" target="_blank" rel="noopener noreferrer">
+          <span>
+            <ArrowRightStartOnRectangleIcon class="w-6 h-4" />
+          </span>
+          <span class="p-1">
+          {{ project.website }}
+          </span> 
+        </a>
+        <a :href="project.post_link" 
+          class="flex items-center p-1 transition rounded-full group font-avenir" 
+          target="_blank" rel="noopener noreferrer"
+          @click.prevent="handleButtonClick(project.post_link)">
+          Learn More
+          <span class="inline-block ml-2">
+            <ArrowRightIcon class="w-6 h-4 transition-transform duration-300 group-hover:translate-x-2" />
+          </span>
+        </a>
       </div>
     </article>
-  </section>
+    <ComingSoonModal :showModal="showModal" @close="closeModal" />
+  </div>
 </template>
 
 <script setup>
-import { onMounted, nextTick } from 'vue';
-import { defineProps } from 'vue';
+import { ref, onMounted, nextTick, defineProps } from 'vue';
+import { ArrowRightStartOnRectangleIcon } from '@heroicons/vue/24/outline';
+import { ArrowRightIcon } from '@heroicons/vue/24/outline';
+import ComingSoonModal from './ComingSoonModal.vue';
 
 defineProps({
   projects: {
     type: Array,
-    required: true
+    required: true,
+    default: () => []
   }
 });
 
-const resolveImagePath = (path) => {
-  return new URL(`../assets/${path.split('/').pop()}`, import.meta.url).href;
+const showModal = ref(false);
+
+const handleButtonClick = (link) => {
+  if (link === '#') {
+    showModal.value = true;
+  } else if (link) {
+    window.location.href = link;
+  }
+};
+
+const closeModal = () => {
+  showModal.value = false;
 };
 
 onMounted(async () => {
@@ -45,25 +75,11 @@ onMounted(async () => {
 });
 </script>
 
-
 <style scoped lang="scss">
-.main-article {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 20px;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 25px;
-  box-sizing: border-box;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
 
 .featured-image {
   width: 100%;
-  height: 200px; /* Fixed height for images */
+  height: 50px; /* Fixed height for images */
   object-fit: scale-down;
   margin-bottom: 15px;
 }
