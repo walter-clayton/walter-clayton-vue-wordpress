@@ -1,0 +1,222 @@
+[
+  {
+    "id": 1,
+    "title": "AFITPILOT",
+    "subtitle": "Personalized Fitness Journey",
+    "description": "Afitpilot provides tailored fitness insights and tools, leveraging somatotypes and RPE to create personalized training plans.",
+    "featureImage": "/assets/afitpilot-logo.png",
+    "website_link": "https://www.afitpilot.com",
+    "website": "afitpilot.com",
+    "post_link": "#"
+  },
+  {
+    "id": 2,
+    "title": "AKWANZA",
+    "subtitle": "Fashioning Conservation First - A Mission Clothed in Purpose",
+    "description": "Akwanza blends eco-friendly fashion with a mission to support the Big Life Foundation. Each garment sold aids wildlife conservation.",
+    "featureImage": "/assets/akwanza-logo.png",
+    "website_link": "https://www.akwanza.com",
+    "website": "akwanza.com",
+    "post_link": "#"
+  },
+  {
+    "id": 3,
+    "title": "RPE",
+    "subtitle": "Rate of Perceived Exertion (RPE)",
+    "description": "RPE is a scale from 1 to 10 that measures exercise intensity based on personal perception, helping monitor athletes.",
+    "featureImage": "/assets/rpe-logo.png",
+    "website_link": "https://rpe.afitpilot.com/",
+    "website": "rpe.afitpilot",
+    "post_link": "#"
+  },
+  {
+    "id": 4,
+    "title": "NGDATA",
+    "subtitle": "NGDATA",
+    "description": "NGDATA is a software company that provides customer data platforms to help businesses deliver personalized customer experiences.",
+    "featureImage": "/assets/ngdata-logo.png",
+    "website_link": "https://www.ngdata.com/",
+    "website": "ngdata.com",
+    "post_link": "#"
+  },
+  {
+    "id": 5,
+    "title": "WALTER CLAYTON",
+    "subtitle": "Walter Clayton Website 2.00",
+    "description": "Walter Clayton 2.00 is a portfolio of my work and projects, showcasing my skills and experience in web development and design.",
+    "featureImage": "/assets/walterclayton-logo.png",
+    "website_link": "https://www.walterclayton.com",
+    "website": "walterclayton.com",
+    "post_link": "#"
+  },
+  {
+    "id": 6,
+    "title": "LON",
+    "subtitle": "League Of Nations",
+    "description": "The League Of Nation scores and ranks countries based on their performance in various global competitions.",
+    "featureImage": "/assets/lon-logo.png",
+    "website_link": "https://leagueofnations.co.uk/",
+    "website": "leagueofnations.co.uk",
+    "post_link": "#"
+  },
+  {
+    "id": 7,
+    "title": "NTT DATA",
+    "subtitle": "NTT DATA",
+    "description": "NTT DATA is a global IT services company that provides technology solutions to help businesses and governments deliver better services.",
+    "featureImage": "/assets/nttdata-logo.png",
+    "website_link": "https://www.nttdata.com/",
+    "website": "nttdata.com",
+    "post_link": "#"
+  },
+  {
+    "id": 8,
+    "title": "ERC",
+    "subtitle": "European Research Council",
+    "description": "The European research council funds research projects in Europe, supporting scientific excellence and innovation.",
+    "featureImage": "/assets/erc-logo.png",
+    "website_link": "https://erc.europa.eu/",
+    "website": "erc.europa.eu",
+    "post_link": "#"
+  },
+  {
+    "id": 9,
+    "title": "ENISA",
+    "subtitle": "European Union Agency for Cybersecurity",
+    "description": "The European Union Agency for Cybersecurity (ENISA) is the Union's agency dedicated to achieving a high common level of cybersecurity across Europe.",
+    "featureImage": "/assets/enisa-logo.png",
+    "website_link": "https://www.enisa.europa.eu/",
+    "website": "enisa.europa.eu",
+    "post_link": "#"
+  },
+  {
+    "id": 10,
+    "title": "EBA",
+    "subtitle": "European Banking Authority",
+    "description": "The European Banking Authority (EBA) is an independent EU Authority which works to ensure effective and consistent prudential regulation and supervision across the European banking sector.",
+    "featureImage": "/assets/eba-logo.png",
+    "website_link": "https://www.eba.europa.eu/",
+    "website": "eba.europa.eu",
+    "post_link": "#"
+  },
+  {
+    "id": 11,
+    "title": "ESMA",
+    "subtitle": "European Securities and Markets Authority",
+    "description": "The European research council funds research projects in Europe, supporting scientific excellence and innovation.",
+    "featureImage": "/assets/esma-logo.png",
+    "website_link": "https://www.esma.europa.eu/",
+    "website": "esma.europa.eu",
+    "post_link": "#"
+  },
+  {
+    "id": 12,
+    "title": "Finlight",
+    "subtitle": "Finlight",
+    "description": "Finlight is a financial data platform that provides real-time financial data and analytics for investors and traders.",
+    "featureImage": "/assets/finlight-logo.png",
+    "website_link": "https://www.linkedin.com/company/finlight",
+    "website": "linkedin.com/finlight",
+    "post_link": "#"
+  },
+  {
+    "id": 13,
+    "title": "WALTER CLAYTON 1.00",
+    "subtitle": "Walter Clayton Website 1.00",
+    "description": "Walter Clayton 1.00 is the first version of my portfolio website.",
+    "featureImage": "/assets/walterclayton-1-logo.png",
+    "website_link": "https://walter-clayton-100.vercel.app/",
+    "website": "walter-clayton-1.00",
+    "post_link": "#"
+  },
+  {
+    "id": 14,
+    "title": "Solar Sisters",
+    "subtitle": "Solar Sisters",
+    "description": "Solar Sisters is a zero-waste shop that offers a range of eco-friendly products to help people reduce their environmental impact.",
+    "featureImage": "/assets/solarsisters-logo.png",
+    "website_link": "https://www.solarsisters.uk/",
+    "website": "solarsisters.uk",
+    "post_link": "#"
+  },
+  {
+    "id": 15,
+    "title": "The Nest",
+    "subtitle": "The Nest Bramley",
+    "description": "The Nest Bramley is a coffee shop situated in the heart of Bramley offering a range of hot and cold drinks and snacks.",
+    "featureImage": "/assets/thenest-logo.png",
+    "website_link": "https://thenestbramley.com/",
+    "website": "thenestbramley.com",
+    "post_link": "#"
+  },
+  {
+    "id": 16,
+    "title": "The Untamed Pen",
+    "subtitle": "The Untamed Pen",
+    "description": "The Untamed Pen is a story blogging website by an anonymous writer...",
+    "featureImage": "/assets/theuntamedpen-logo.png",
+    "website_link": "https://theuntamedpen.com/",
+    "website": "theuntamedpen.com",
+    "post_link": "#"
+  },
+  {
+    "id": 17,
+    "title": "Make Art Not Waste",
+    "subtitle": "Make Art Not Waste",
+    "description": "Make Art Not Waste is a project that aims to raise awareness about the environmental impact of waste through art.",
+    "featureImage": "/assets/makeartnotwaste-logo.png",
+    "website_link": "https://makeartnotwaste.com/",
+    "website": "makeartnotwaste.com",
+    "post_link": "#"
+  },
+  {
+    "id": 18,
+    "title": "BUC Rugby",
+    "subtitle": "Buc Rugby Club Strength and Condition Training Plans and monitoring",
+    "description": "The BUC Rugby Club Strength and Condition Training Plans are designed to help rugby players improve their performance and reduce the risk of injury.",
+    "featureImage": "/assets/buc-logo.png",
+    "website_link": "https://walter-clayton.github.io/buc-rugby/index.html",
+    "website": "github.io/buc-rugby",
+    "post_link": "#"
+  },
+  {
+    "id": 19,
+    "title": "Somatotype Graph",
+    "subtitle": "Somatotype Graph Generator",
+    "description": "The Somatotype Generator calculate's somatotype results and displays the results on the graph.",
+    "featureImage": "/assets/somatotype-logo.png",
+    "website_link": "https://walter-clayton.github.io/somatotype/",
+    "website": "github.io/somatotype",
+    "post_link": "#"
+  },
+  {
+    "id": 20,
+    "title": "EcoHoods",
+    "subtitle": "EcoHoods",
+    "description": " Ecohoods is a platform that allows users to see how much money they have saved from using eco smart devices.",
+    "featureImage": "/assets/ecohoods-logo.png",
+    "website_link": "https://walter-clayton.github.io/ecohoods/dashboard.html",
+    "website": "github.io/ecohoods",
+    "post_link": "#"
+  },
+  {
+    "id": 21,
+    "title": "Lulu Clicker",
+    "subtitle": "Lulu Clicker",
+    "description": "The Lulu Clicker is a game. The aim is to collect as many coins as possible.",
+    "featureImage": "/assets/luluclicker-logo.png",
+    "website_link": "https://walter-clayton.github.io/cookieClicker/",
+    "website": "github.io/cookieClicker",
+    "post_link": "#"
+  },
+  {
+    "id": 22,
+    "title": "YelpCamp",
+    "subtitle": "YelpCamp",
+    "description": "YelpCamp is a web app that lists campsites with weather APIs.",
+    "featureImage": "/assets/yelpcamp-logo.png",
+    "website_link": "https://yelpcamp-3y3g.onrender.com/",
+    "website": "yelpcamp.onrender",
+    "post_link": "#"
+  }
+]

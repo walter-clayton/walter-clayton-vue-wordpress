@@ -2,16 +2,8 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-@layer components {
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-avenir;
-  }
-  .btn-primary {
-    @apply px-5 py-2 m-2 text-lg font-bold bg-[#202733] text-white rounded-full font-avenir !important;
-  }
-  .btn-secondary {
-    @apply px-5 py-2 m-2 text-lg font-bold bg-transparent text-[#202733] border border-[#202733] rounded-full font-avenir;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -22,4 +14,21 @@ body {
 a, a:visited {
   color: inherit;
   text-decoration: none;
+}
+
+@layer components {
+  .btn-primary {
+    @apply text-lg font-bold bg-[#202733] text-white rounded-full font-avenir !important;
+  }
+  .btn-secondary {
+    @apply px-5 py-2 m-2 text-lg font-bold bg-transparent text-[#202733] border border-[#202733] rounded-full font-avenir;
+  }
+  .container {
+    @apply px-4 mx-auto;
+  }
+}
+@layer components {
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-avenir;
+  }
 }
