@@ -25,20 +25,7 @@
         </a>
       </div>
     </article>
-
-    <!-- Modal Section -->
-    <div v-if="showModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div class="w-full max-w-md p-8 text-center bg-white rounded-md shadow-lg">
-        <h2 class="mb-4 text-2xl font-bold">Coming Soon!</h2>
-          <p>The feature is currently under construction. 
-            <br> Follow my progress on 
-              <a href="https://github.com/walter-clayton" class="underline">
-              Github
-              </a>!
-          </p>
-        <button @click="closeModal" class="px-5 py-2 mt-5 text-white rounded-md btn-primary avenir next">Close</button>
-      </div>
-    </div>
+    <ComingSoonModal :showModal="showModal" @close="closeModal" />
   </div>
 </template>
 
@@ -46,6 +33,7 @@
 import { ref, onMounted, nextTick, defineProps } from 'vue';
 import { ArrowRightStartOnRectangleIcon } from '@heroicons/vue/24/outline';
 import { ArrowRightIcon } from '@heroicons/vue/24/outline';
+import ComingSoonModal from './ComingSoonModal.vue';
 
 defineProps({
   projects: {

@@ -2,7 +2,7 @@
   <main>
     <TheJumbotron @loaded="handleJumbotronLoaded" />
     <BackgroundTopSVG />
-    <section class="flex flex-col items-center my-12">
+    <section class="container flex flex-col items-center px-4 mx-auto my-12">
       <CardComponent
         v-if="projectItems"
         :projects="projectItems"

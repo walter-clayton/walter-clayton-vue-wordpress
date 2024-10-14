@@ -16,6 +16,7 @@
             v-for="button in buttons"
             :key="button.text"
             :href="button.link"
+            @click.prevent="handleButtonClick(button)"
             :class="[
               button.class, // Add the dynamic button class
               'transition-colors duration-200', // Shared transition properties
@@ -30,12 +31,14 @@
         </div>
       </div>
     </div>
+    <ComingSoonModal v-if="showModal" :showModal="showModal" @close="closeModal" />
   </div>
 </template>
 
 <script setup>
 import { ref, watch, onMounted, shallowRef, defineEmits } from 'vue';
 import { useRoute } from 'vue-router';
+import ComingSoonModal from './ComingSoonModal.vue';
 
 const route = useRoute();
 const emit = defineEmits(['loaded']);
@@ -45,6 +48,7 @@ const subtitle = ref('');
 const description = ref('');
 const buttons = ref([]);
 const svgComponent = shallowRef(null);
+const showModal = ref(false);
 
 const updateContent = () => {
   title.value = route.meta.title || 'Default Title';
@@ -69,6 +73,18 @@ onMounted(() => {
   updateContent();
   emit('loaded');
 });
+
+const handleButtonClick = (button) => {
+  if (button.text === "Get a Quote") {
+    showModal.value = true;
+  } else if (button.link) {
+    window.location.href = button.link;
+  }
+};
+
+const closeModal = () => {
+  showModal.value = false;
+};
 </script>
 
 
