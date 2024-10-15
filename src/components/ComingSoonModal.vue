@@ -9,7 +9,7 @@
           Github
         </a>!
       </p>
-      <button @click="closeModal" class="px-5 py-2 mt-5 text-white rounded-md btn-primary avenir next">Close</button>
+      <button @click="closeModal" class="px-5 py-2 mt-5 text-white rounded-md btn-primary">Close</button>
     </div>
   </div>
 </template>
