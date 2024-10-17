@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-[#D3C9BB] lg:min-h-screen flex items-center justify-center">
+  <div class="bg-[#D3C9BB] mt-12 flex items-center justify-center">
     <div class="max-w-7xl w-[90%] mx-auto flex flex-col md:flex-row justify-evenly flex-wrap py-5">
       <!-- SVG Component: Order changes based on screen size -->
       <div class="block-1 p-5 w-full md:w-[40%] flex justify-center order-1 md:order-2">
@@ -109,6 +109,7 @@ const closeModal = () => {
 </script>
 
 <style scoped>
+
 .line-height-extra {
   line-height: 1.3 !important;
 }

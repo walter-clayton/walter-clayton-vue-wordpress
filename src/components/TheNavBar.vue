@@ -5,6 +5,8 @@ import { RouterLink, useRoute } from 'vue-router';
 import Logo from './icons/IconLogo.vue';
 
 const isMenuOpen = ref(false);
+const showNavbar = ref(true);
+const lastScrollPosition = ref(0);
 const route = useRoute();
 
 const toggleMenu = () => {
@@ -20,17 +22,34 @@ const handleClickOutside = (e) => {
   }
 };
 
+// Handle scroll to show/hide navbar
+const handleScroll = () => {
+  const currentScrollPosition = window.pageYOffset;
+
+  if (currentScrollPosition < lastScrollPosition.value) {
+    // User is scrolling up
+    showNavbar.value = true;
+  } else if (currentScrollPosition > lastScrollPosition.value + 10) {
+    // User is scrolling down
+    showNavbar.value = false;
+  }
+
+  lastScrollPosition.value = currentScrollPosition;
+};
+
 onMounted(() => {
   document.addEventListener('mousedown', handleClickOutside);
+  window.addEventListener('scroll', handleScroll);
 });
 
 onBeforeUnmount(() => {
   document.removeEventListener('mousedown', handleClickOutside);
+  window.removeEventListener('scroll', handleScroll);
 });
 </script>
 
 <template>
-  <nav class="bg-[#EEEAE2] font-avenir tracking-widest">
+  <nav v-show="showNavbar" class="bg-[#EEEAE2] font-avenir tracking-widest navbar">
     <div class="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
       <!-- Container for logo and navigation items -->
       <div class="relative flex items-center justify-between h-16">
@@ -38,7 +57,7 @@ onBeforeUnmount(() => {
         <div class="flex items-center justify-center flex-1 space-x-4 sm:justify-start">
           <!-- Logo -->
           <a href="/" class="flex items-center">
-            <Logo />
+            <Logo/>
           </a>
           <!-- Navigation links for larger screens -->
           <div class="hidden space-x-4 sm:flex">
@@ -134,3 +153,14 @@ onBeforeUnmount(() => {
     </div>
   </nav>
 </template>
+
+<style scoped>
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #EEEAE2;
+  transition: top 0.3s;
+  z-index: 50;
+}
+</style>

@@ -5,7 +5,7 @@
       subtitle="This section highlights both my personal initiatives and professional projects."
       buttonText="Go to All Projects"
       @button-click="goToProjects"
-      id="my-work"
+      id="work-section"
     >
       <template v-slot:header>
           <Line/>

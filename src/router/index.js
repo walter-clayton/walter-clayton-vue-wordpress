@@ -10,7 +10,7 @@ const routes = [
       subtitle: 'Creating websites that engage and convert.',
       description: 'I build custom websites that captivate your audience and deliver measurable results. Let’s craft a digital experience that helps your business grow.',
       buttons: [
-        { text: 'Discover My Portfolio', link: '#my-work', class: 'px-5 py-2 m-2 btn-primary' },
+        { text: 'Discover My Portfolio', link: '#work-section', class: 'px-5 py-2 m-2 btn-primary' },
         { text: 'Request a Free Consultation', link: '#ComingSoon', class: 'px-5 py-2 m-2 btn-secondary' }
       ],
       svg: 'HomeSVG'
@@ -25,7 +25,7 @@ const routes = [
       subtitle: "Showcasing my web solutions and creative endeavors.",
       description: "I design websites and apps that bring ideas to life and help businesses succeed.",
       buttons: [
-        { text: 'View My Portfolio', link: '#my-work', class: 'px-5 py-2 m-2 btn-primary' },
+        { text: 'View My Portfolio', link: '#portfolio-section', class: 'px-5 py-2 m-2 btn-primary' },
         { text: 'Discover My Skills', link: '#ComingSoon', class: 'px-5 py-2 m-2 btn-secondary' }
       ],
       svg: 'PortfolioSVG'
@@ -40,7 +40,7 @@ const routes = [
       subtitle: 'Web development, tech challenges, and more...',
       description: "Read about my latest thoughts on web development and project updates.",
       buttons: [
-        { text: 'Explore All Blog Posts', link: '#my-work', class: 'px-5 py-2 m-2 btn-primary' },
+        { text: 'Explore All Blog Posts', link: '#blog-section', class: 'px-5 py-2 m-2 btn-primary' },
         { text: 'Get the Latest Updates', link: '#ComingSoon', class: 'px-5 py-2 m-2 btn-secondary' }
       ],
       svg: 'BlogSVG'
@@ -55,7 +55,7 @@ const routes = [
       subtitle: 'From Self-Taught Coder to Web Architect',
       description: "I started as a self-taught coder and grew into a web architect, driven by curiosity and a passion for problem-solving. Every project I take on is an opportunity to create something meaningful for businesses.",
       buttons: [
-        { text: 'Read My Full Story', link: '#my-work', class: 'px-5 py-2 m-2 btn-primary' },
+        { text: 'Read My Full Story', link: '#story-section', class: 'px-5 py-2 m-2 btn-primary' },
         { text: 'See My Work in Action', link: '#ComingSoon', class: 'px-5 py-2 m-2 btn-secondary' }
       ],
       svg: 'AboutSVG'
@@ -70,7 +70,20 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else if (to.hash) {
+      return {
+        el: to.hash,
+        behavior: 'smooth', // Optional: Add smooth scroll effect
+      };
+    } else {
+      return { top: 0 };
+    }
+  },
 });
+
 
 export default router;
