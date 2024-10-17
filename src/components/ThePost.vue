@@ -1,48 +1,56 @@
 <template>
-  <div v-if="post" class="post-container">
-    <h1 v-html="post.title.rendered" class="title"></h1>
-    <span class="date">{{ formatDate(post.date) }}</span>
-    <img v-if="featuredImage" :src="featuredImage.url" :alt="featuredImage.alt" :title="featuredImage.title" class="featured-image" loading="lazy"/>
-    <div v-html="post.content.rendered" class="content"></div>
-    <p class="author">Written by <em>{{ authorName }}</em></p>
-    <div class="tags-categories">
-      <p v-if="tags.length || categories.length">
-        <button @click="showTagsCategories = !showTagsCategories">
-          {{ showTagsCategories ? 'Hide' : 'Show' }} Categories and Tags 
-        </button>
-      </p>
-      <div v-if="showTagsCategories">
-        <p v-if="categories.length">
-          <strong>
-            Categories:
-          </strong>
-          <br />
-          <span v-for="category in categories" :key="category.id" class="badge badge-primary">
-            {{ category.name }}
-          </span>
+  <div>
+    <div v-if="post" class="post-container">
+      <h1 v-html="post.title.rendered" class="title"></h1>
+      <span class="date">{{ formatDate(post.date) }}</span>
+      <img v-if="featuredImage" :src="featuredImage.url" :alt="featuredImage.alt" :title="featuredImage.title" class="featured-image" loading="lazy"/>
+      <div v-html="post.content.rendered" class="content"></div>
+      <p class="author">Written by <em>{{ authorName }}</em></p>
+      <div class="tags-categories">
+        <p v-if="tags.length || categories.length">
+          <button @click="showTagsCategories = !showTagsCategories">
+            {{ showTagsCategories ? 'Hide' : 'Show' }} Categories and Tags 
+          </button>
         </p>
-        <p v-if="tags.length">
-          <strong>
-            Tags:
-          </strong>
-          <br />
-          <span v-for="tag in tags" :key="tag.id" class="badge badge-secondary">
-            {{ tag.name }}
-          </span>
-        </p>
+        <div v-if="showTagsCategories">
+          <p v-if="categories.length">
+            <strong>
+              Categories:
+            </strong>
+            <br />
+            <span v-for="category in categories" :key="category.id" class="badge badge-primary">
+              {{ category.name }}
+            </span>
+          </p>
+          <p v-if="tags.length">
+            <strong>
+              Tags:
+            </strong>
+            <br />
+            <span v-for="tag in tags" :key="tag.id" class="badge badge-secondary">
+              {{ tag.name }}
+            </span>
+          </p>
+      </div>
+      </div>
+      <div class="social-share">
+        <a :href="twitterShareUrl" class="btn-secondary" target="_blank">Share on Twitter</a>
+        <a :href="facebookShareUrl" class="btn-secondary" target="_blank">Share on Facebook</a>
+      </div>
     </div>
-    </div>
-    <div class="social-share">
-      <a :href="twitterShareUrl" class="btn-secondary" target="_blank">Share on Twitter</a>
-      <a :href="facebookShareUrl" class="btn-secondary" target="_blank">Share on Facebook</a>
-    </div>
+    <p class="loading" v-else>Loading...</p>
+    <button id="backToTop" title="Go to top" class="fixed z-50 hidden text-white transition-opacity bg-[#202733] rounded-full w-16 h-16 bottom-5 right-5 opacity-70 hover:opacity-100">
+      <div class="flex flex-col items-center justify-center">
+        <ArrowUpIcon class="w-6 h-6 mb-1 stroke-2 " />
+        <span class="mb-1 text-sm font-semibold">Top</span>
+      </div>
+    </button>
   </div>
-  <p class="loading" v-else>Loading...</p>
-
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
+import { ArrowUpIcon } from '@heroicons/vue/24/outline'
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 
@@ -194,9 +202,31 @@ const facebookShareUrl = computed(() => {
   return `https://www.facebook.com/sharer/sharer.php?u=https://yourwebsite.com/${post.value.slug}`;
 });
 
+
+// Start loading project items on mount
 onMounted(() => {
   const postId = route.params.id;
   fetchPost(postId);
+
+  // Get the button element after the component is mounted
+  let backToTopButton = document.getElementById("backToTop");
+
+  // Show the button when user scrolls down 100 pixels from the top
+  window.onscroll = function() {
+    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+      backToTopButton.style.display = "block";
+    } else {
+      backToTopButton.style.display = "none";
+    }
+  };
+
+  // Scroll to the top of the page when the button is clicked
+  backToTopButton.onclick = function() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Smooth scrolling
+    });
+  };
 });
 </script>
 
