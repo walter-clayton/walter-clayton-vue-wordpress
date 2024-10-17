@@ -5,6 +5,8 @@ import { RouterLink, useRoute } from 'vue-router';
 import Logo from './icons/IconLogo.vue';
 
 const isMenuOpen = ref(false);
+const showNavbar = ref(true);
+const lastScrollPosition = ref(0);
 const route = useRoute();
 
 const toggleMenu = () => {
@@ -20,31 +22,78 @@ const handleClickOutside = (e) => {
   }
 };
 
+// Handle scroll to show/hide navbar
+const handleScroll = () => {
+  const currentScrollPosition = window.pageYOffset;
+
+  if (currentScrollPosition < lastScrollPosition.value) {
+    // User is scrolling up
+    showNavbar.value = true;
+  } else if (currentScrollPosition > lastScrollPosition.value + 10) {
+    // User is scrolling down
+    showNavbar.value = false;
+  }
+
+  lastScrollPosition.value = currentScrollPosition;
+};
+
 onMounted(() => {
   document.addEventListener('mousedown', handleClickOutside);
+  window.addEventListener('scroll', handleScroll);
 });
 
 onBeforeUnmount(() => {
   document.removeEventListener('mousedown', handleClickOutside);
+  window.removeEventListener('scroll', handleScroll);
 });
 </script>
 
-
 <template>
-  <nav class="bg-[#EEEAE2] font-avenir tracking-widest">
+  <nav v-show="showNavbar" class="bg-[#EEEAE2] font-avenir tracking-widest navbar">
     <div class="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
+      <!-- Container for logo and navigation items -->
       <div class="relative flex items-center justify-between h-16">
-        <div class="flex items-center justify-between flex-1 sm:justify-start">
-          <div class="flex items-center">
-            <a href="/" class="flex items-center">
-            <Logo />
-            </a>
+        <!-- Mobile: Center logo, larger screens: Align logo and links together -->
+        <div class="flex items-center justify-center flex-1 space-x-4 sm:justify-start">
+          <!-- Logo -->
+          <a href="/" class="flex items-center">
+            <Logo/>
+          </a>
+          <!-- Navigation links for larger screens -->
+          <div class="hidden space-x-4 sm:flex">
+            <RouterLink
+              to="/"
+              :class="`px-3 py-2 text-base font-medium hover:font-bold hover:underline ${route.path === '/' ? 'underline' : ''}`"
+            >
+              HOME
+            </RouterLink>
+            <RouterLink
+              to="/blog"
+              :class="`px-3 py-2 text-base font-medium hover:font-bold hover:underline ${route.path === '/blog' ? 'underline' : ''}`"
+            >
+              BLOG
+            </RouterLink>
+            <RouterLink
+              to="/portfolio"
+              :class="`px-3 py-2 text-base font-medium hover:font-bold hover:underline ${route.path === '/portfolio' ? 'underline' : ''}`"
+            >
+              PORTFOLIO
+            </RouterLink>
+            <RouterLink
+              to="/about"
+              :class="`px-3 py-2 text-base font-medium hover:font-bold hover:underline ${route.path === '/about' ? 'underline' : ''}`"
+            >
+              ABOUT
+            </RouterLink>
           </div>
-          <!-- Mobile menu button-->
+        </div>
+
+        <!-- Mobile menu button in top right -->
+        <div class="absolute right-2 top-2 sm:hidden">
           <button
             type="button"
             @click="toggleMenu"
-            class="relative inline-flex items-center justify-center p-2 sm:hidden"
+            class="relative inline-flex items-center justify-center p-2"
             aria-controls="mobile-menu"
             aria-expanded="false"
             aria-label="Toggle menu"
@@ -65,34 +114,6 @@ onBeforeUnmount(() => {
               />
             </svg>
           </button>
-          <div class="hidden sm:ml-6 sm:block">
-            <div class="flex space-x-4">
-              <RouterLink
-                to="/"
-                :class="`px-3 py-2 text-base font-medium hover:font-bold hover:underline ${route.path === '/' ? 'underline' : ''}`"
-              >
-                HOME
-              </RouterLink>
-              <RouterLink
-                to="/blog"
-                :class="`px-3 py-2 text-base font-medium hover:font-bold hover:underline ${route.path === '/blog' ? 'underline' : ''}`"
-              >
-                BLOG
-              </RouterLink>
-              <RouterLink
-                to="/portfolio"
-                :class="`px-3 py-2 text-base font-medium hover:font-bold hover:underline ${route.path === '/portfolio' ? 'underline' : ''}`"
-              >
-                PORTFOLIO
-              </RouterLink>
-              <RouterLink
-                to="/about"
-                :class="`px-3 py-2 text-base font-medium hover:font-bold hover:underline ${route.path === '/about' ? 'underline' : ''}`"
-              >
-                ABOUT
-              </RouterLink>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -132,3 +153,14 @@ onBeforeUnmount(() => {
     </div>
   </nav>
 </template>
+
+<style scoped>
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #EEEAE2;
+  transition: top 0.3s;
+  z-index: 50;
+}
+</style>
