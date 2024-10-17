@@ -5,6 +5,7 @@
       </svg>
     </div>
 </template>
+
 <style scoped lang="scss">
 .logo-container{
     @media (max-width: 560px) {

@@ -2,11 +2,11 @@
   <section>
     <TheJumbotron @loaded="handleJumbotronLoaded" />
     <BackgroundTopSVG />
-    <div v-if="isJumbotronLoaded" class="post-container">
+    <div id="story-section" v-if="isJumbotronLoaded" class="post-container">
       <h1 v-html="aboutItem.title" class="title"></h1>
       <img v-if="aboutItem.featuredImage" :src="aboutItem.featuredImage" alt="Featured Image" class="featured-image" ref="featuredImageRef" />
       <div class="content">
-        <p v-for="(paragraph, index) in aboutItem.content.paragraphs" :key="index" v-html="paragraph"></p>
+        <p class="mb-6 text-lg md:text-xl" v-for="(paragraph, index) in aboutItem.content.paragraphs" :key="index" v-html="paragraph"></p>
       </div>
     </div>
     <p class="loading" v-else>Loading...</p>
