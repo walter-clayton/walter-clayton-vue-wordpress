@@ -1,48 +1,96 @@
 <template>
   <div>
-    <div v-if="post" class="post-container">
-      <h1 v-html="post.title.rendered" class="title"></h1>
-      <span class="date">{{ formatDate(post.date) }}</span>
-      <img v-if="featuredImage" :src="featuredImage.url" :alt="featuredImage.alt" :title="featuredImage.title" class="featured-image" loading="lazy"/>
-      <div v-html="post.content.rendered" class="content"></div>
-      <p class="author">Written by <em>{{ authorName }}</em></p>
-      <div class="tags-categories">
+    <div v-if="post" class="max-w-3xl px-5 mx-auto mt-24 text-center">
+      <h1 
+        v-html="post.title.rendered" 
+        class="mb-4 text-2xl font-extrabold leading-tight sm:text-2xl lg:text-3xl lg:leading-snug"
+      ></h1>
+      <span 
+        class="block mb-2 text-base text-gray-800 lg:text-xl lg:mb-4"
+      >
+        {{ formatDate(post.date) }}
+      </span>
+      <div class="relative">
+        <img
+          v-if="featuredImage"
+          :src="featuredImage.url"
+          :aria-label="featuredImage.description"
+          :alt="featuredImage.alt"
+          :title="featuredImage.title"
+          class="object-cover w-auto h-auto mx-auto max-h-[300px] sm:max-h-[300px] lg:max-h-[400px] rounded-lg my-6 sm:my-8 lg:my-10 aspect-w-16 aspect-h-9 transition-transform duration-300 hover:scale-105"
+          loading="lazy"
+          @load="imageLoaded = true"
+        />
+        <div
+          v-if="!imageLoaded"
+          class="absolute inset-0 bg-gray-200 rounded-lg animate-pulse"
+        ></div>
+      </div>
+      <figcaption class="hidden">
+        {{ featuredImage.caption }}
+      </figcaption>
+      <div v-html="post.content.rendered" class="mb-6 text-lg text-left md:text-xl"></div>
+      <p class="mt-4 italic text-right">Written by <em>{{ authorName }}</em></p>
+      <!-- <div class="mt-4 text-left">
         <p v-if="tags.length || categories.length">
-          <button @click="showTagsCategories = !showTagsCategories">
-            {{ showTagsCategories ? 'Hide' : 'Show' }} Categories and Tags 
+          <button
+            @click="showTagsCategories = !showTagsCategories"
+            class="px-4 py-2 text-white bg-gray-800 rounded-md hover:bg-gray-900"
+          >
+            {{ showTagsCategories ? 'Hide' : 'Show' }} Categories and Tags
           </button>
         </p>
-        <div v-if="showTagsCategories">
-          <p v-if="categories.length">
-            <strong>
-              Categories:
-            </strong>
+        <div v-if="showTagsCategories" class="mt-4">
+          <p v-if="categories.length" class="mb-2">
+            <strong>Categories:</strong>
             <br />
-            <span v-for="category in categories" :key="category.id" class="badge badge-primary">
+            <span
+              v-for="category in categories"
+              :key="category.id"
+              class="inline-block px-2 py-1 mt-1 mr-2 text-xs font-semibold text-white bg-gray-800 rounded"
+            >
               {{ category.name }}
             </span>
           </p>
           <p v-if="tags.length">
-            <strong>
-              Tags:
-            </strong>
+            <strong>Tags:</strong>
             <br />
-            <span v-for="tag in tags" :key="tag.id" class="badge badge-secondary">
+            <span
+              v-for="tag in tags"
+              :key="tag.id"
+              class="inline-block px-2 py-1 mt-1 mr-2 text-xs font-semibold text-white bg-gray-500 rounded"
+            >
               {{ tag.name }}
             </span>
           </p>
-      </div>
-      </div>
-      <div class="social-share">
-        <a :href="twitterShareUrl" class="btn-secondary" target="_blank">Share on Twitter</a>
-        <a :href="facebookShareUrl" class="btn-secondary" target="_blank">Share on Facebook</a>
-      </div>
+        </div>
+      </div> -->
+      <!-- <div class="mt-4">
+        <a
+          :href="twitterShareUrl"
+          class="inline-block px-4 py-2 mr-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
+          target="_blank"
+        >
+          Share on Twitter
+        </a>
+        <a
+          :href="facebookShareUrl"
+          class="inline-block px-4 py-2 text-white bg-blue-800 rounded-md hover:bg-blue-900"
+          target="_blank"
+        >
+          Share on Facebook
+        </a>
+      </div> -->
     </div>
-    <p class="loading" v-else>Loading...</p>
-    <button id="backToTop" title="Go to top" class="fixed z-50 hidden text-white transition-opacity bg-[#202733] rounded-full w-16 h-16 bottom-5 right-5 opacity-70 hover:opacity-100">
+    <p class="mt-10 text-center" v-else>Loading...</p>
+    <button
+      id="backToTop"
+      title="Go to top"
+      class="fixed z-50 hidden w-16 h-16 text-white transition-opacity bg-gray-800 rounded-full bottom-5 right-5 opacity-70 hover:opacity-100"
+    >
       <div class="flex flex-col items-center justify-center">
-        <ArrowUpIcon class="w-6 h-6 mb-1 stroke-2 " />
-        <span class="mb-1 text-sm font-semibold">Top</span>
+        <ArrowUpIcon class="w-6 h-6 mb-1" />
+        <span class="text-sm font-semibold">Top</span>
       </div>
     </button>
   </div>
@@ -57,10 +105,19 @@ import axios from 'axios';
 const route = useRoute();
 const post = ref(null);
 const authorName = ref('');
-const featuredImage = ref('');
 const categories = ref([]);
 const tags = ref([]);
 const showTagsCategories = ref(false);
+
+// State to track image loading
+const imageLoaded = ref(false);
+
+// Simulated featured image data
+const featuredImage = ref({
+  url: "", // Replace with your image URL
+  alt: "",
+  title: "",
+});
 
 const fetchPost = async (id) => {
   try {
@@ -231,53 +288,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.post-container {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
-  text-align: center;
-}
-
-.featured-image {
-  width: 100%;
-  margin: 20px 0;
-  object-fit: scale-down;
-}
-
-.loading {
-  text-align: center;
-  margin-top: 20px;
-}
-
-/* For mobile view */
-.featured-image {
-  height: auto;
-}
-
-/* For tablet and desktop views */
-@media screen and (min-width: 768px) {
-  .featured-image {
-    height: 500px;
-  }
-}
-
-.title {
-  font-size: 24px;
-  line-height: 1.5;
-  margin: 20px 0 10px 0;
-}
-
-.date {
-  color: rgba(12, 17, 43, 0.9);
-  font-size: 1em;
-  font-weight: 300;
-  margin-bottom: 20px;
-}
-
-.content {
-  margin-bottom: 20px;
-  text-align: left;
-}
 
 /* Use :deep to target nested images */
 :deep(.content code){
@@ -300,13 +310,6 @@ onMounted(() => {
   display: block;
   margin: 0 auto;
 }
-
-.author {
-  text-align: right;
-  font-style: italic;
-  margin-top: 20px;
-}
-
 :deep(.parent-link) {
   margin-bottom: 40px !important;
 }
@@ -317,53 +320,4 @@ onMounted(() => {
   color: white;
   align-self: flex-start;
 }
-
-.social-share {
-  margin-top: 20px;
-}
-
-.btn-secondary {
-  display: inline-block;
-  padding: 10px 20px;
-  margin: 5px;
-  font-size: 1em;
-  text-decoration: none;
-  border-radius: 15px;
-}
-
-.btn-secondary {
-  background-color: #ffffff;
-  color: #47758c;
-  border: 2px solid #202733;
-}
-
-.btn-secondary:hover{
-    background-color: #202733;
-    color: #ffffff;
-    border: 2px solid #202733;
-}
-
-.badge {
-  display: inline-block;
-  padding: 0.25em 0.4em;
-  font-size: 75%;
-  font-weight: 700;
-  line-height: 1;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: baseline;
-  border-radius: 0.25rem;
-  margin-right: 0.5em;
-}
-
-.badge-secondary {
-  color: #fff;
-  background-color: #6c757d;
-}
-
-.badge-primary {
-  color: #fff;
-  background-color: #202733;
-}
-
 </style>
