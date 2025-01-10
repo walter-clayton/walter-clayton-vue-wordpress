@@ -8,7 +8,7 @@ const routes = [
     meta: {
       title: ["WALTER CLAYTON"],
       subtitle: 'Creating websites that engage and convert.',
-      description: 'I build custom websites that captivate your audience and deliver measurable results. Let’s craft a digital experience that helps your business grow.',
+      description: "I build custom websites that captivate your audience and deliver measurable results. Let's craft a digital experience that helps your business grow.",
       buttons: [
         { text: 'Discover My Portfolio', link: '#work-section', class: 'px-5 py-2 m-2 btn-primary' },
         { text: 'Request a Free Consultation', link: '#ComingSoon', class: 'px-5 py-2 m-2 btn-secondary' }
@@ -62,7 +62,7 @@ const routes = [
     },
   },
   {
-    path: '/post/:id',
+    path: '/post/:slug',
     name: 'post',
     component: () => import('../components/ThePost.vue')
   }
@@ -77,13 +77,12 @@ const router = createRouter({
     } else if (to.hash) {
       return {
         el: to.hash,
-        behavior: 'smooth', // Optional: Add smooth scroll effect
+        behavior: 'smooth',
       };
     } else {
       return { top: 0 };
     }
   },
 });
-
 
 export default router;
