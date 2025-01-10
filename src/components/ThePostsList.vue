@@ -1,4 +1,3 @@
-
 <template>
   <section v-if="posts.length > 0">
     <article v-for="post in posts" :key="post.id" class="main-article">
@@ -6,8 +5,10 @@
       <h3 v-html="post.title.rendered" class="title"></h3>
       <span class="date">{{ formatDate(post.date) }}</span>
       <div v-html="post.excerpt.rendered" class="excerpt"></div>
-      <div class="read-more" @click="trackReadMoreClick(post.id)">
-        <router-link :to="{ name: 'post', params: { id: post.id } }">Read More</router-link>
+      <div class="read-more">
+        <router-link :to="{ name: 'post', params: { slug: post.slug }}">
+          Read More
+        </router-link>
       </div>
     </article>
   </section>
