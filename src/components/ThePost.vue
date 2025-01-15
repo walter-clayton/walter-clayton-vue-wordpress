@@ -26,46 +26,6 @@
       </div>
       <div v-html="post.content.rendered" class="mb-6 text-lg text-left md:text-xl blog-content"></div>
       <p class="mt-4 italic text-right">Written by <em>{{ authorName }}</em></p>
-      
-      <!-- Social Share Buttons -->
-      <div class="flex justify-center items-center mt-8 mb-4 space-x-4">
-        <a 
-          :href="twitterShareUrl" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          class="flex items-center px-4 py-2 bg-[#1DA1F2] text-white rounded-lg hover:bg-[#1a8cd8] transition-colors"
-        >
-          <svg class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
-          </svg>
-          Share on Twitter
-        </a>
-        
-        <a 
-          :href="facebookShareUrl" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          class="flex items-center px-4 py-2 bg-[#1877F2] text-white rounded-lg hover:bg-[#166fe5] transition-colors"
-        >
-          <svg class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-          </svg>
-          Share on Facebook
-        </a>
-        
-        <a 
-          :href="linkedInShareUrl" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          class="flex items-center px-4 py-2 bg-[#0A66C2] text-white rounded-lg hover:bg-[#094ea0] transition-colors"
-        >
-          <svg class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-          </svg>
-          Share on LinkedIn
-        </a>
-      </div>
-      
     </div>
 
     <!-- Comments Section -->
@@ -273,56 +233,156 @@ const insertMetaTags = () => {
   
   const head = document.head;
 
+  // Remove existing meta tags first to avoid duplicates
+  const existingMetas = head.querySelectorAll('meta[data-vue-meta="true"]');
+  existingMetas.forEach(meta => meta.remove());
+
   const metaDescription = document.createElement('meta');
   metaDescription.name = 'description';
   metaDescription.content = post.value.excerpt.rendered.replace(/(<([^>]+)>)/gi, '');
+  metaDescription.setAttribute('data-vue-meta', 'true');
   head.appendChild(metaDescription);
 
+  // Open Graph tags
   const ogTitle = document.createElement('meta');
   ogTitle.setAttribute('property', 'og:title');
   ogTitle.content = post.value.title.rendered;
+  ogTitle.setAttribute('data-vue-meta', 'true');
   head.appendChild(ogTitle);
 
   const ogDescription = document.createElement('meta');
   ogDescription.setAttribute('property', 'og:description');
   ogDescription.content = post.value.excerpt.rendered.replace(/(<([^>]+)>)/gi, '');
+  ogDescription.setAttribute('data-vue-meta', 'true');
   head.appendChild(ogDescription);
 
   const ogImage = document.createElement('meta');
   ogImage.setAttribute('property', 'og:image');
   ogImage.content = featuredImage.value.url;
+  ogImage.setAttribute('data-vue-meta', 'true');
   head.appendChild(ogImage);
 
   const ogUrl = document.createElement('meta');
   ogUrl.setAttribute('property', 'og:url');
-  ogUrl.content = `https://blog.walterclayton.com/${post.value.slug}`;
+  ogUrl.content = window.location.href;
+  ogUrl.setAttribute('data-vue-meta', 'true');
   head.appendChild(ogUrl);
+
+  // Add og:type
+  const ogType = document.createElement('meta');
+  ogType.setAttribute('property', 'og:type');
+  ogType.content = 'article';
+  ogType.setAttribute('data-vue-meta', 'true');
+  head.appendChild(ogType);
+
+  // Twitter Card tags
+  const twitterCard = document.createElement('meta');
+  twitterCard.setAttribute('name', 'twitter:card');
+  twitterCard.content = 'summary_large_image';
+  twitterCard.setAttribute('data-vue-meta', 'true');
+  head.appendChild(twitterCard);
+
+  const twitterTitle = document.createElement('meta');
+  twitterTitle.setAttribute('name', 'twitter:title');
+  twitterTitle.content = post.value.title.rendered;
+  twitterTitle.setAttribute('data-vue-meta', 'true');
+  head.appendChild(twitterTitle);
+
+  const twitterDescription = document.createElement('meta');
+  twitterDescription.setAttribute('name', 'twitter:description');
+  twitterDescription.content = post.value.excerpt.rendered.replace(/(<([^>]+)>)/gi, '');
+  twitterDescription.setAttribute('data-vue-meta', 'true');
+  head.appendChild(twitterDescription);
+
+  const twitterImage = document.createElement('meta');
+  twitterImage.setAttribute('name', 'twitter:image');
+  twitterImage.content = featuredImage.value.url;
+  twitterImage.setAttribute('data-vue-meta', 'true');
+  head.appendChild(twitterImage);
+
+  // Facebook additional tags
+  const fbAppId = document.createElement('meta');
+  fbAppId.setAttribute('property', 'fb:app_id');
+  fbAppId.content = ''; // Add your Facebook App ID if you have one
+  fbAppId.setAttribute('data-vue-meta', 'true');
+  head.appendChild(fbAppId);
+
+  const articlePublishedTime = document.createElement('meta');
+  articlePublishedTime.setAttribute('property', 'article:published_time');
+  articlePublishedTime.content = post.value.date;
+  articlePublishedTime.setAttribute('data-vue-meta', 'true');
+  head.appendChild(articlePublishedTime);
+
+  const articleModifiedTime = document.createElement('meta');
+  articleModifiedTime.setAttribute('property', 'article:modified_time');
+  articleModifiedTime.content = post.value.modified;
+  articleModifiedTime.setAttribute('data-vue-meta', 'true');
+  head.appendChild(articleModifiedTime);
+
+  const articleAuthor = document.createElement('meta');
+  articleAuthor.setAttribute('property', 'article:author');
+  articleAuthor.content = authorName.value;
+  articleAuthor.setAttribute('data-vue-meta', 'true');
+  head.appendChild(articleAuthor);
+
+  // LinkedIn uses Open Graph tags
+  const ogSiteName = document.createElement('meta');
+  ogSiteName.setAttribute('property', 'og:site_name');
+  ogSiteName.content = 'Walter Clayton Blog';
+  ogSiteName.setAttribute('data-vue-meta', 'true');
+  head.appendChild(ogSiteName);
+
+  // Make sure image is absolute URL
+  let absoluteImageUrl = featuredImage.value.url;
+  if (!absoluteImageUrl.startsWith('http')) {
+    absoluteImageUrl = `https://blog.walterclayton.com${absoluteImageUrl}`;
+  }
+  if (absoluteImageUrl.startsWith('http://')) {
+    absoluteImageUrl = absoluteImageUrl.replace('http://', 'https://');
+  }
+  
+  // Update og:image with absolute HTTPS URL
+  ogImage.content = absoluteImageUrl;
+  
+  // Add og:image:secure_url
+  const ogImageSecureUrl = document.createElement('meta');
+  ogImageSecureUrl.setAttribute('property', 'og:image:secure_url');
+  ogImageSecureUrl.content = absoluteImageUrl;
+  ogImageSecureUrl.setAttribute('data-vue-meta', 'true');
+  head.appendChild(ogImageSecureUrl);
+  
+  // Add og:image:type
+  const ogImageType = document.createElement('meta');
+  ogImageType.setAttribute('property', 'og:image:type');
+  ogImageType.content = 'image/jpeg'; // or 'image/png' depending on your image
+  ogImageType.setAttribute('data-vue-meta', 'true');
+  head.appendChild(ogImageType);
+
+  // Add image dimensions if available
+  const ogImageWidth = document.createElement('meta');
+  ogImageWidth.setAttribute('property', 'og:image:width');
+  ogImageWidth.content = '1200';
+  ogImageWidth.setAttribute('data-vue-meta', 'true');
+  head.appendChild(ogImageWidth);
+
+  const ogImageHeight = document.createElement('meta');
+  ogImageHeight.setAttribute('property', 'og:image:height');
+  ogImageHeight.content = '630';
+  ogImageHeight.setAttribute('data-vue-meta', 'true');
+  head.appendChild(ogImageHeight);
 
   const keywordsMeta = document.createElement('meta');
   keywordsMeta.name = 'keywords';
   keywordsMeta.content = tags.value.map(tag => tag.name).join(', ');
+  keywordsMeta.setAttribute('data-vue-meta', 'true');
   head.appendChild(keywordsMeta);
 
   const script = document.createElement('script');
   script.type = 'application/ld+json';
   script.text = structuredData.value;
+  script.setAttribute('data-vue-meta', 'true');
   head.appendChild(script);
 };
-
-const twitterShareUrl = computed(() => {
-  if (!post.value) return '';
-  return `https://twitter.com/intent/tweet?url=https://blog.walterclayton.com/post/${post.value.slug}&text=${encodeURIComponent(post.value.title.rendered)}`;
-});
-
-const facebookShareUrl = computed(() => {
-  if (!post.value) return '';
-  return `https://www.facebook.com/sharer/sharer.php?u=https://blog.walterclayton.com/post/${post.value.slug}`;
-});
-
-const linkedInShareUrl = computed(() => {
-  if (!post.value) return '';
-  return `https://www.linkedin.com/sharing/share-offsite/?url=https://blog.walterclayton.com/post/${post.value.slug}`;
-});
 
 const fetchComments = async (postId) => {
   try {
