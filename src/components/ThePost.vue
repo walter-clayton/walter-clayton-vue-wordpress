@@ -29,7 +29,7 @@
     </div>
 
     <!-- Comments Section -->
-    <div v-if="post" class="mx-auto mt-12 max-w-3xl px-5">
+    <div v-if="post" class="px-5 mx-auto mt-12 max-w-3xl">
       <h2 class="mb-6 text-2xl font-bold">Comments</h2>
       
       <!-- Comments List -->
@@ -233,51 +233,156 @@ const insertMetaTags = () => {
   
   const head = document.head;
 
+  // Remove existing meta tags first to avoid duplicates
+  const existingMetas = head.querySelectorAll('meta[data-vue-meta="true"]');
+  existingMetas.forEach(meta => meta.remove());
+
   const metaDescription = document.createElement('meta');
   metaDescription.name = 'description';
   metaDescription.content = post.value.excerpt.rendered.replace(/(<([^>]+)>)/gi, '');
+  metaDescription.setAttribute('data-vue-meta', 'true');
   head.appendChild(metaDescription);
 
+  // Open Graph tags
   const ogTitle = document.createElement('meta');
   ogTitle.setAttribute('property', 'og:title');
   ogTitle.content = post.value.title.rendered;
+  ogTitle.setAttribute('data-vue-meta', 'true');
   head.appendChild(ogTitle);
 
   const ogDescription = document.createElement('meta');
   ogDescription.setAttribute('property', 'og:description');
   ogDescription.content = post.value.excerpt.rendered.replace(/(<([^>]+)>)/gi, '');
+  ogDescription.setAttribute('data-vue-meta', 'true');
   head.appendChild(ogDescription);
 
   const ogImage = document.createElement('meta');
   ogImage.setAttribute('property', 'og:image');
   ogImage.content = featuredImage.value.url;
+  ogImage.setAttribute('data-vue-meta', 'true');
   head.appendChild(ogImage);
 
   const ogUrl = document.createElement('meta');
   ogUrl.setAttribute('property', 'og:url');
-  ogUrl.content = `https://blog.walterclayton.com/${post.value.slug}`;
+  ogUrl.content = window.location.href;
+  ogUrl.setAttribute('data-vue-meta', 'true');
   head.appendChild(ogUrl);
+
+  // Add og:type
+  const ogType = document.createElement('meta');
+  ogType.setAttribute('property', 'og:type');
+  ogType.content = 'article';
+  ogType.setAttribute('data-vue-meta', 'true');
+  head.appendChild(ogType);
+
+  // Twitter Card tags
+  const twitterCard = document.createElement('meta');
+  twitterCard.setAttribute('name', 'twitter:card');
+  twitterCard.content = 'summary_large_image';
+  twitterCard.setAttribute('data-vue-meta', 'true');
+  head.appendChild(twitterCard);
+
+  const twitterTitle = document.createElement('meta');
+  twitterTitle.setAttribute('name', 'twitter:title');
+  twitterTitle.content = post.value.title.rendered;
+  twitterTitle.setAttribute('data-vue-meta', 'true');
+  head.appendChild(twitterTitle);
+
+  const twitterDescription = document.createElement('meta');
+  twitterDescription.setAttribute('name', 'twitter:description');
+  twitterDescription.content = post.value.excerpt.rendered.replace(/(<([^>]+)>)/gi, '');
+  twitterDescription.setAttribute('data-vue-meta', 'true');
+  head.appendChild(twitterDescription);
+
+  const twitterImage = document.createElement('meta');
+  twitterImage.setAttribute('name', 'twitter:image');
+  twitterImage.content = featuredImage.value.url;
+  twitterImage.setAttribute('data-vue-meta', 'true');
+  head.appendChild(twitterImage);
+
+  // Facebook additional tags
+  const fbAppId = document.createElement('meta');
+  fbAppId.setAttribute('property', 'fb:app_id');
+  fbAppId.content = ''; // Add your Facebook App ID if you have one
+  fbAppId.setAttribute('data-vue-meta', 'true');
+  head.appendChild(fbAppId);
+
+  const articlePublishedTime = document.createElement('meta');
+  articlePublishedTime.setAttribute('property', 'article:published_time');
+  articlePublishedTime.content = post.value.date;
+  articlePublishedTime.setAttribute('data-vue-meta', 'true');
+  head.appendChild(articlePublishedTime);
+
+  const articleModifiedTime = document.createElement('meta');
+  articleModifiedTime.setAttribute('property', 'article:modified_time');
+  articleModifiedTime.content = post.value.modified;
+  articleModifiedTime.setAttribute('data-vue-meta', 'true');
+  head.appendChild(articleModifiedTime);
+
+  const articleAuthor = document.createElement('meta');
+  articleAuthor.setAttribute('property', 'article:author');
+  articleAuthor.content = authorName.value;
+  articleAuthor.setAttribute('data-vue-meta', 'true');
+  head.appendChild(articleAuthor);
+
+  // LinkedIn uses Open Graph tags
+  const ogSiteName = document.createElement('meta');
+  ogSiteName.setAttribute('property', 'og:site_name');
+  ogSiteName.content = 'Walter Clayton Blog';
+  ogSiteName.setAttribute('data-vue-meta', 'true');
+  head.appendChild(ogSiteName);
+
+  // Make sure image is absolute URL
+  let absoluteImageUrl = featuredImage.value.url;
+  if (!absoluteImageUrl.startsWith('http')) {
+    absoluteImageUrl = `https://blog.walterclayton.com${absoluteImageUrl}`;
+  }
+  if (absoluteImageUrl.startsWith('http://')) {
+    absoluteImageUrl = absoluteImageUrl.replace('http://', 'https://');
+  }
+  
+  // Update og:image with absolute HTTPS URL
+  ogImage.content = absoluteImageUrl;
+  
+  // Add og:image:secure_url
+  const ogImageSecureUrl = document.createElement('meta');
+  ogImageSecureUrl.setAttribute('property', 'og:image:secure_url');
+  ogImageSecureUrl.content = absoluteImageUrl;
+  ogImageSecureUrl.setAttribute('data-vue-meta', 'true');
+  head.appendChild(ogImageSecureUrl);
+  
+  // Add og:image:type
+  const ogImageType = document.createElement('meta');
+  ogImageType.setAttribute('property', 'og:image:type');
+  ogImageType.content = 'image/jpeg'; // or 'image/png' depending on your image
+  ogImageType.setAttribute('data-vue-meta', 'true');
+  head.appendChild(ogImageType);
+
+  // Add image dimensions if available
+  const ogImageWidth = document.createElement('meta');
+  ogImageWidth.setAttribute('property', 'og:image:width');
+  ogImageWidth.content = '1200';
+  ogImageWidth.setAttribute('data-vue-meta', 'true');
+  head.appendChild(ogImageWidth);
+
+  const ogImageHeight = document.createElement('meta');
+  ogImageHeight.setAttribute('property', 'og:image:height');
+  ogImageHeight.content = '630';
+  ogImageHeight.setAttribute('data-vue-meta', 'true');
+  head.appendChild(ogImageHeight);
 
   const keywordsMeta = document.createElement('meta');
   keywordsMeta.name = 'keywords';
   keywordsMeta.content = tags.value.map(tag => tag.name).join(', ');
+  keywordsMeta.setAttribute('data-vue-meta', 'true');
   head.appendChild(keywordsMeta);
 
   const script = document.createElement('script');
   script.type = 'application/ld+json';
   script.text = structuredData.value;
+  script.setAttribute('data-vue-meta', 'true');
   head.appendChild(script);
 };
-
-const twitterShareUrl = computed(() => {
-  if (!post.value) return '';
-  return `https://twitter.com/intent/tweet?url=https://blog.walterclayton.com/post/${post.value.slug}&text=${encodeURIComponent(post.value.title.rendered)}`;
-});
-
-const facebookShareUrl = computed(() => {
-  if (!post.value) return '';
-  return `https://www.facebook.com/sharer/sharer.php?u=https://blog.walterclayton.com/post/${post.value.slug}`;
-});
 
 const fetchComments = async (postId) => {
   try {
